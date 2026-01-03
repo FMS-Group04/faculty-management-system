@@ -1,4 +1,4 @@
 package com.faculty.view;
 
-public class LoginView {
+public class LoginView { //hai
 }
