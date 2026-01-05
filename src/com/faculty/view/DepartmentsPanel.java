@@ -4,15 +4,15 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class DegreesPanel extends JPanel {
+public class DepartmentsPanel extends JPanel {
 
-    public DegreesPanel() {
+    public DepartmentsPanel() {
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
         setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
 
         // ---------- TITLE ----------
-        JLabel title = new JLabel("Degrees", JLabel.CENTER);
+        JLabel title = new JLabel("Departments", JLabel.CENTER);
         title.setFont(new Font("Segoe UI", Font.BOLD, 34));
         title.setForeground(new Color(138, 92, 246));
         add(title, BorderLayout.NORTH);
@@ -32,12 +32,11 @@ public class DegreesPanel extends JPanel {
         add(topPanel, BorderLayout.BEFORE_FIRST_LINE);
 
         // ---------- TABLE ----------
-        String[] cols = {"Degree", "Department", "No of Students"};
+        String[] cols = {"Name", "HOD", "Degree", "No of Staff"};
         Object[][] data = {
-                {"Engineering Technology", "Applied Computing", 375},
-                {"Information Technology", "Software Engineering", 375},
-                {"Computer Science", "Computer Systems Engineering", 325},
-                {"Bio Systems Technology", "Applied Computing", 75}
+                {"Applied Computing", "Kumar Sanga", "Engineering Technology", 15},
+                {"Software Engineering", "Kumar Sanga", "Information Technology", 17},
+                {"Computer Systems Engineering", "Kumar Sanga", "Computer Science", 12}
         };
 
         JTable table = new JTable(new DefaultTableModel(data, cols));
