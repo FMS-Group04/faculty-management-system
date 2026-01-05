@@ -13,13 +13,13 @@ public class DegreesPanel extends JPanel {
 
         // Main container with padding
         JPanel mainContainer = new JPanel(new BorderLayout());
-        mainContainer.setBorder(new EmptyBorder(30, 30, 30, 30));
+        mainContainer.setBorder(new EmptyBorder(30, 40, 30, 40));
         mainContainer.setBackground(Color.WHITE);
 
         // Title panel
         JPanel titlePanel = new JPanel(new BorderLayout());
         titlePanel.setBackground(Color.WHITE);
-        titlePanel.setBorder(new EmptyBorder(0, 0, 20, 0));
+        titlePanel.setBorder(new EmptyBorder(0, 0, 25, 0));
 
         JLabel lblTitle = new JLabel("Degrees");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 24));
@@ -34,9 +34,9 @@ public class DegreesPanel extends JPanel {
         JButton btnEdit = new JButton("Edit");
         JButton btnDelete = new JButton("Delete");
 
-        styleActionButton(btnAddNew, new Color(58, 52, 112));
+        styleActionButton(btnAddNew, new Color(100, 100, 100));
         styleActionButton(btnEdit, new Color(100, 100, 100));
-        styleActionButton(btnDelete, new Color(200, 50, 50));
+        styleActionButton(btnDelete, new Color(100, 100, 100));
 
         actionPanel.add(btnAddNew);
         actionPanel.add(btnEdit);
@@ -65,12 +65,12 @@ public class DegreesPanel extends JPanel {
         styleTable(table);
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(220, 220, 220)));
+        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(230, 230, 230)));
         scrollPane.getViewport().setBackground(Color.WHITE);
         mainContainer.add(scrollPane, BorderLayout.CENTER);
 
         // Save button at bottom
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 20));
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 20));
         bottomPanel.setBackground(Color.WHITE);
         JButton btnSave = new JButton("Save changes");
         styleSaveButton(btnSave);
@@ -81,18 +81,18 @@ public class DegreesPanel extends JPanel {
     }
 
     private void styleTable(JTable table) {
-        table.setRowHeight(40);
+        table.setRowHeight(35);
         table.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        table.setGridColor(new Color(240, 240, 240));
+        table.setGridColor(new Color(58, 52, 112));
         table.setShowGrid(true);
         table.setIntercellSpacing(new Dimension(0, 0));
 
         // Header styling
         table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
         table.getTableHeader().setBackground(new Color(250, 250, 250));
-        table.getTableHeader().setForeground(new Color(100, 100, 100));
-        table.getTableHeader().setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(240, 240, 240)));
-        table.getTableHeader().setPreferredSize(new Dimension(table.getTableHeader().getWidth(), 40));
+        table.getTableHeader().setForeground(new Color(58, 52, 112));
+        table.getTableHeader().setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(230, 230, 230)));
+        table.getTableHeader().setPreferredSize(new Dimension(table.getTableHeader().getWidth(), 30));
 
         // Remove focus border
         table.setFocusable(false);

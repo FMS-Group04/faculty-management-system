@@ -17,27 +17,57 @@ public class AdminController {
     public AdminController(AdminDashboard view) {
         this.view = view;
 
+        System.out.println("AdminController initialized!"); // Debug
+
         // Initialize all controllers
         studentController = new StudentController(view);
         lecturerController = new LecturerController(view);
         courseController = new CourseController(view);
         departmentController = new DepartmentController(view);
         degreeController = new DegreeController(view);
-        //timeTableController = new TimeTableController(view);
+       // timeTableController = new TimeTableController(view);
 
         initActions();
     }
 
     private void initActions() {
-        // Connect each button to its controller's refresh method
-        //view.getStudentsBtn().addActionListener(e -> studentController.refreshStudentPanel());
-        view.getLecturersBtn().addActionListener(e -> lecturerController.refreshPanel());
-        view.getCoursesBtn().addActionListener(e -> courseController.refreshPanel());
-        view.getDepartmentsBtn().addActionListener(e -> departmentController.refreshPanel());
-        view.getDegreesBtn().addActionListener(e -> degreeController.refreshPanel());
-        //view.getTimeTableBtn().addActionListener(e -> timeTableController.refreshPanel());
+        System.out.println("Setting up button actions..."); // Debug
 
-        view.getLogoutButton().addActionListener(e -> handleLogout());
+        // Add debug messages to see if actions are triggered
+        view.getStudentsBtn().addActionListener(e -> {
+            System.out.println("Students button clicked!");
+            studentController.refreshStudentPanel();
+        });
+
+        view.getLecturersBtn().addActionListener(e -> {
+            System.out.println("Lecturers button clicked!");
+            lecturerController.refreshPanel();
+        });
+
+        view.getCoursesBtn().addActionListener(e -> {
+            System.out.println("Courses button clicked!");
+            courseController.refreshPanel();
+        });
+
+        view.getDepartmentsBtn().addActionListener(e -> {
+            System.out.println("Departments button clicked!");
+            departmentController.refreshPanel();
+        });
+
+        view.getDegreesBtn().addActionListener(e -> {
+            System.out.println("Degrees button clicked!");
+            degreeController.refreshPanel();
+        });
+
+        view.getTimeTableBtn().addActionListener(e -> {
+            System.out.println("Time Table button clicked!");
+           // timeTableController.refreshPanel();
+        });
+
+        view.getLogoutButton().addActionListener(e -> {
+            System.out.println("Logout button clicked!");
+            handleLogout();
+        });
     }
 
     private void handleLogout() {
@@ -50,7 +80,7 @@ public class AdminController {
         );
 
         if (response == JOptionPane.YES_OPTION) {
-            view.dispose(); // Close admin dashboard
+            view.dispose();
 
             // Return to login screen
             SwingUtilities.invokeLater(() -> {
