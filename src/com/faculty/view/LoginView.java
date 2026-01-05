@@ -1,13 +1,9 @@
 package com.faculty.view;
 
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class LoginView extends JFrame {
 
@@ -42,8 +38,8 @@ public class LoginView extends JFrame {
         mainContainer.setBackground(BACKGROUND);
         setContentPane(mainContainer);
 
-        add(createLeftPanel(), BorderLayout.WEST);
-        add(createRightPanel(), BorderLayout.CENTER);
+        mainContainer.add(createLeftPanel(), BorderLayout.WEST);
+        mainContainer.add(createRightPanel(), BorderLayout.CENTER);
     }
 
     // ================= LEFT PANEL =================
@@ -122,7 +118,6 @@ public class LoginView extends JFrame {
         cardPanel.add(createSignUpForm(), "signup");
 
         panel.add(cardPanel, BorderLayout.CENTER);
-
         container.add(panel);
         return container;
     }
@@ -162,8 +157,6 @@ public class LoginView extends JFrame {
         card.add(createInput("Username", txtSignInUsername = new JTextField()));
         card.add(Box.createVerticalStrut(15));
         card.add(createInput("Password", txtSignInPassword = new JPasswordField()));
-        card.add(Box.createVerticalStrut(20));
-
         card.add(Box.createVerticalStrut(30));
         btnSignIn = createButton("Sign In to Portal");
         card.add(btnSignIn);
@@ -221,7 +214,6 @@ public class LoginView extends JFrame {
                 BorderFactory.createEmptyBorder(5, 12, 5, 12)
         ));
 
-        // Interaction: Highlight border on focus
         field.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -254,7 +246,7 @@ public class LoginView extends JFrame {
     }
 
     private JPanel createRolePanel() {
-        JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 10));
+        JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         p.setOpaque(false);
 
         btnAdmin = createRoleButton("Admin", true);
@@ -265,12 +257,9 @@ public class LoginView extends JFrame {
         g.add(btnAdmin); g.add(btnStudent); g.add(btnLecturer);
 
         p.add(btnAdmin);
-        p.add(Box.createHorizontalStrut(10));
         p.add(btnStudent);
-        p.add(Box.createHorizontalStrut(10));
         p.add(btnLecturer);
 
-        p.setMaximumSize(new Dimension(500, 60));
         return p;
     }
 
@@ -278,7 +267,7 @@ public class LoginView extends JFrame {
         JToggleButton b = new JToggleButton(text, selected);
         b.setFocusPainted(false);
         b.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        b.setFont(new Font("Segoe UI", Font.BOLD, 13)); // Fixed the MEDIUM error here
+        b.setFont(new Font("Segoe UI", Font.BOLD, 13));
         b.setPreferredSize(new Dimension(100, 38));
         updateToggleStyle(b);
 
