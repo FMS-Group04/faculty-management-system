@@ -6,11 +6,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 
-public class DegreesPanel extends JPanel {
+public class DepartmentsPanel extends JPanel {
     private final Color PURPLE_THEME = new Color(99, 102, 241);
     private final Color LIGHT_PURPLE = new Color(138, 116, 249);
 
-    public DegreesPanel() {
+    public DepartmentsPanel() {
         setLayout(new BorderLayout(0, 0));
         setBackground(new Color(245, 245, 250));
 
@@ -24,7 +24,7 @@ public class DegreesPanel extends JPanel {
         titlePanel.setBackground(new Color(245, 245, 250));
         titlePanel.setBorder(new EmptyBorder(0, 0, 10, 0));
 
-        JLabel lblTitle = new JLabel("Degrees", JLabel.CENTER);
+        JLabel lblTitle = new JLabel("Departments", JLabel.CENTER);
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 36));
         lblTitle.setForeground(PURPLE_THEME);
         titlePanel.add(lblTitle, BorderLayout.NORTH);
@@ -54,19 +54,18 @@ public class DegreesPanel extends JPanel {
         centerPanel.setBackground(new Color(245, 245, 250));
         centerPanel.setBorder(new EmptyBorder(20, 0, 20, 0));
 
-        // Table - Matching screenshot structure
-        String[] columns = {"Degree", "Department", "No of Students"};
+        // Table for Departments
+        String[] columns = {"Department", "HOD", "Degree", "No of Staff"};
         Object[][] data = {
-                {"Engineering Technology", "Applied Computing", "375"},
-                {"Information Technology", "Software Engineering", "375"},
-                {"Computer Science", "Computer Systems Engineering", "325"},
-                {"Bio Systems Technology", "Applied Computing", "75"}
+                {"Applied Computing", "Kumar Sanga", "Engineering Technology", 15},
+                {"Software Engineering", "Jane Doe", "Information Technology", 17},
+                {"Computer Systems Engineering", "John Smith", "Computer Science", 12}
         };
 
         DefaultTableModel model = new DefaultTableModel(data, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false;
+                return true;
             }
         };
 
