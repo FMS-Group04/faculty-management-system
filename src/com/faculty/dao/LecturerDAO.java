@@ -10,7 +10,7 @@ import java.util.List;
 public class LecturerDAO {
 
     // ✅ ADD LECTURER
-    //Hii
+    //Hiiii
     public boolean addLecturer(Lecturer lecturer) {
         String sql = "INSERT INTO lecturers (name, email, department_id) VALUES (?, ?, ?)";
 
