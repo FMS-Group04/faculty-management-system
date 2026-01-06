@@ -1,57 +1,75 @@
 package com.faculty.view;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 
 public class StudentsPanel extends JPanel {
+    private final Color PURPLE_THEME = new Color(132, 84, 255);
 
     public StudentsPanel() {
-        setLayout(new BorderLayout(20, 20));
+        setLayout(new BorderLayout(0, 20));
         setBackground(Color.WHITE);
-        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        setBorder(new EmptyBorder(30, 40, 30, 40));
 
-        // Title
-        JLabel lbl = new JLabel("Students Management", JLabel.CENTER);
-        lbl.setFont(new Font("Segoe UI", Font.BOLD, 28));
-        lbl.setForeground(new Color(58, 52, 112));
-        add(lbl, BorderLayout.NORTH);
+        JLabel lblTitle = new JLabel("Students", JLabel.CENTER);
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 32));
+        lblTitle.setForeground(PURPLE_THEME);
+        add(lblTitle, BorderLayout.NORTH);
 
-        // Table
-        String[] columns = {"ID", "Name", "Email", "Department"};
+        JPanel centerContent = new JPanel(new BorderLayout(0, 20));
+        centerContent.setOpaque(false);
+
+        // Action Buttons
+        JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 0));
+        actionPanel.setOpaque(false);
+        actionPanel.add(createBtn("Add Student", PURPLE_THEME));
+        actionPanel.add(createBtn("Edit", new Color(180, 180, 180)));
+        actionPanel.add(createBtn("Delete", new Color(180, 180, 180)));
+        centerContent.add(actionPanel, BorderLayout.NORTH);
+
+        // Table Data
+        String[] columns = {"ID", "Name", "Degree", "Year"};
         Object[][] data = {
-                {"S001", "John Doe", "john@example.com", "Software Engineering"},
-                {"S002", "Anna Smith", "anna@example.com", "Computer Science"}
+                {"S001", "Alice Brown", "Software Engineering", "2nd Year"},
+                {"S002", "Bob Wilson", "Computer Systems", "1st Year"}
         };
+
         JTable table = new JTable(new DefaultTableModel(data, columns));
-        table.setRowHeight(30);
-        table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
-        table.getTableHeader().setBackground(new Color(132, 84, 255));
-        table.getTableHeader().setForeground(Color.WHITE);
+        setupTableStyle(table);
 
         JScrollPane scroll = new JScrollPane(table);
-        scroll.setBorder(BorderFactory.createLineBorder(new Color(220, 220, 220)));
-        add(scroll, BorderLayout.CENTER);
+        scroll.setBorder(BorderFactory.createLineBorder(PURPLE_THEME, 2));
+        centerContent.add(scroll, BorderLayout.CENTER);
 
-        // Buttons
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
-        bottomPanel.setBackground(Color.WHITE);
-        JButton btnAdd = new JButton("Add Student");
-        JButton btnSave = new JButton("Save Changes");
-        styleButton(btnAdd, new Color(132, 84, 255));
-        styleButton(btnSave, new Color(58, 52, 112));
-
-        bottomPanel.add(btnAdd);
-        bottomPanel.add(btnSave);
-        add(bottomPanel, BorderLayout.SOUTH);
+        add(centerContent, BorderLayout.CENTER);
     }
 
-    private void styleButton(JButton btn, Color bg) {
-        btn.setBackground(bg);
-        btn.setForeground(Color.WHITE);
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        btn.setFocusPainted(false);
-        btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    private void setupTableStyle(JTable table) {
+        table.setRowHeight(40);
+        table.setGridColor(PURPLE_THEME);
+        table.setForeground(PURPLE_THEME);
+        DefaultTableCellRenderer center = new DefaultTableCellRenderer();
+        center.setHorizontalAlignment(JLabel.CENTER);
+        for(int i=0; i<table.getColumnCount(); i++) table.getColumnModel().getColumn(i).setCellRenderer(center);
+
+        JTableHeader h = table.getTableHeader();
+        h.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        h.setForeground(PURPLE_THEME);
+        h.setBackground(Color.WHITE);
+    }
+
+    private JButton createBtn(String text, Color bg) {
+        JButton b = new JButton(text);
+        b.setPreferredSize(new Dimension(150, 40));
+        b.setBackground(bg);
+        b.setForeground(Color.WHITE);
+        b.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        b.setFocusPainted(false);
+        b.setBorder(null);
+        return b;
     }
 }
