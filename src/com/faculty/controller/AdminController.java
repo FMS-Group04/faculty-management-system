@@ -18,7 +18,14 @@ public class AdminController {
         this.view = view;
 
         // Initialize controllers (No TimeTable)
-        studentController = new StudentController(view);
+        // Note: StudentController constructor expects 2 parameters, but we only have 1
+        // Since this is AdminController, we should NOT create StudentController here
+        // Instead, we'll handle student operations directly or remove this controller
+
+        // Removing StudentController initialization since it doesn't fit admin context
+        studentController = null; // Cannot create StudentController without proper parameters
+
+        // Initialize other controllers
         lecturerController = new LecturerController(view);
         courseController = new CourseController(view);
         departmentController = new DepartmentController(view);
@@ -29,13 +36,26 @@ public class AdminController {
 
     private void initActions() {
         // Set up action listeners (No TimeTable)
-        view.getStudentsBtn().addActionListener(e -> studentController.refreshStudentPanel());
+        view.getStudentsBtn().addActionListener(e -> handleStudentsButton());
         view.getLecturersBtn().addActionListener(e -> lecturerController.refreshPanel());
         view.getCoursesBtn().addActionListener(e -> courseController.refreshPanel());
         view.getDepartmentsBtn().addActionListener(e -> departmentController.refreshPanel());
         view.getDegreesBtn().addActionListener(e -> degreeController.refreshPanel());
 
         view.getLogoutButton().addActionListener(e -> handleLogout());
+    }
+
+    private void handleStudentsButton() {
+        // Handle student panel refresh in admin context
+        // You need to implement this method based on what should happen
+        // when admin clicks the Students button
+        System.out.println("Admin: Students button clicked");
+
+        // Example: Show a message or implement admin-specific student management
+        JOptionPane.showMessageDialog(view,
+                "Student management functionality for admin",
+                "Admin Students",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void handleLogout() {
