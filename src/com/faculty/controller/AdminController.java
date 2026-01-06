@@ -7,7 +7,7 @@ public class AdminController {
 
     private final AdminDashboard view;
 
-    private StudentController studentController;
+    private StudentController studentBasicController;
     private LecturerController lecturerController;
     private CourseController courseController;
     private DepartmentController departmentController;
@@ -23,7 +23,7 @@ public class AdminController {
         // Instead, we'll handle student operations directly or remove this controller
 
         // Removing StudentController initialization since it doesn't fit admin context
-        studentController = null; // Cannot create StudentController without proper parameters
+        studentBasicController = null; // Cannot create StudentController without proper parameters
 
         // Initialize other controllers
         lecturerController = new LecturerController(view);
