@@ -27,7 +27,7 @@ public class LoginController {
     private void handleSignIn() {
         String username = view.txtSignInUsername.getText().trim();
         String password = new String(view.txtSignInPassword.getPassword());
-        String role = view.getSelectedRole();
+        //String role = view.getSelectedRole();
 
         if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(view,
@@ -38,7 +38,7 @@ public class LoginController {
         }
 
         UserDAO userDAO = new UserDAO();
-        User user = userDAO.login(username, password, role);
+        User user = userDAO.login(username, password);
 
         if (user != null) {
             JOptionPane.showMessageDialog(view,
