@@ -204,7 +204,7 @@ public class DegreesPanel extends JPanel {
 
         // Department Dropdown
         gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0;
-        JLabel lblDepartment = new JLabel("Department (Code):");
+        JLabel lblDepartment = new JLabel("Department:");
         lblDepartment.setFont(new Font("Segoe UI", Font.BOLD, 14));
         contentPanel.add(lblDepartment, gbc);
 
