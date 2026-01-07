@@ -1,4 +1,3 @@
-
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -37,6 +36,7 @@ CREATE TABLE lecturers (
     lecturer_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
     email VARCHAR(100),
+    mobile VARCHAR(15),
     department_id INT,
     user_id INT,
     FOREIGN KEY (department_id) REFERENCES departments(department_id),
