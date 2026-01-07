@@ -195,25 +195,25 @@ public class LecturerDashboard extends JFrame {
         gbc.insets = new Insets(10, 10, 10, 10);
 
         // Full Name (Text Field)
-        JTextField txtFullName = createFormField("Kesavan Selvarajah");
+        JTextField txtFullName = createFormField("");
 
         // Department (DROPDOWN - CHANGE 1)
         JComboBox<String> comboDepartment = new JComboBox<>(new String[]{
                 "Select Department", "SE", "CS", "ET", "IT", "DS"
         });
-        comboDepartment.setSelectedItem("SE");
+        comboDepartment.setSelectedItem("Select Department");
         styleComboBox(comboDepartment);
 
         // Course Teaching (DROPDOWN - CHANGE 1)
         JComboBox<String> comboCourseTeaching = new JComboBox<>(new String[]{
-                "Select Course", "CSCI 21052", "CSCI 21053", "CSCI 21054", "CSCI 21055"
+                "Select Course", "CSCI 21032", "CSCI 21042", "CSCI 21052", "CSCI 21062"
         });
-        comboCourseTeaching.setSelectedItem("CSCI 21052");
+        comboCourseTeaching.setSelectedItem("Select Coourse");
         styleComboBox(comboCourseTeaching);
 
         // Email and Mobile (Text Fields)
-        JTextField txtEmail = createFormField("kesavans@kln.ac.lk");
-        JTextField txtMobile = createFormField("0712345678");
+        JTextField txtEmail = createFormField("");
+        JTextField txtMobile = createFormField("");
 
         // Layout
         gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0;
@@ -305,7 +305,7 @@ public class LecturerDashboard extends JFrame {
         JComboBox<String> comboBatch = new JComboBox<>(new String[]{
                 "Select Batch", "2020", "2021", "2022", "2023", "2024"
         });
-        comboBatch.setSelectedItem("2022");
+        comboBatch.setSelectedItem("Select Batch");
         styleComboBox(comboBatch);
         formPanel.add(comboBatch, gbc);
 
@@ -316,7 +316,7 @@ public class LecturerDashboard extends JFrame {
         JComboBox<String> comboDegree = new JComboBox<>(new String[]{
                 "Select Degree", "CS", "ET", "CT", "BST"
         });
-        comboDegree.setSelectedItem("ET");
+        comboDegree.setSelectedItem("Select Degree");
         styleComboBox(comboDegree);
         formPanel.add(comboDegree, gbc);
 
@@ -358,7 +358,7 @@ public class LecturerDashboard extends JFrame {
                 BorderFactory.createEmptyBorder(15, 0, 0, 0)
         ));
 
-        JLabel previewLabel = new JLabel("Recipients: ~120 students will receive this message");
+        JLabel previewLabel = new JLabel("Recipients: ~500 students will receive this message");
         previewLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         previewLabel.setForeground(TEXT_GRAY);
         previewPanel.add(previewLabel, BorderLayout.WEST);
@@ -449,9 +449,9 @@ public class LecturerDashboard extends JFrame {
         // CHANGE 3: Removed "Actions" column
         String[] columns = {"Course Code", "Course Name", "Schedule", "Students"}; // Removed "Actions"
         Object[][] data = {
-                {"CSCI 21052", "Java Programming", "Mon 10-12", "45"},
-                {"CSCI 21053", "Database Systems", "Wed 2-4", "38"},
-                {"CSCI 21054", "Web Development", "Fri 9-11", "42"}
+                {"CSCI 21052", "Object Oriented Programming", "Tuesday 10-12", "88"},
+                {"CSCI 21042", "Software Engineering", "Tuesday 1-3", "66"},
+                {"CSCI 21062", "Advanced DBMS", "Thursday 10-12", "66"}
         };
 
         javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(data, columns) {
