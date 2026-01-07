@@ -52,17 +52,29 @@ public class LecturerController {
     }
 
     public void refreshPanel() {
-        view.showPanel("LECTURERS");
-        view.setActiveButton(view.getLecturersBtn());
-        loadLecturers();
+        // IMPORTANT FIX: Ensure panel is visible and buttons are active
+        if (view != null) {
+            view.showPanel("LECTURERS");
+            view.setActiveButton(view.getLecturersBtn());
+
+            // Re-initialize panel if needed
+            if (lecturersPanel == null) {
+                initPanel();
+            }
+
+            // Load lecturers data
+            loadLecturers();
+        }
     }
 
     private void loadLecturers() {
         try {
             Object[][] data = lecturerDao.loadLecturers();
-            lecturersPanel.getTableModel().setRowCount(0);
-            for (Object[] row : data) {
-                lecturersPanel.getTableModel().addRow(row);
+            if (lecturersPanel != null && lecturersPanel.getTableModel() != null) {
+                lecturersPanel.getTableModel().setRowCount(0);
+                for (Object[] row : data) {
+                    lecturersPanel.getTableModel().addRow(row);
+                }
             }
         } catch (SQLException e) {
             showErrorMessage("Error loading lecturers: " + e.getMessage(), "Database Error");
