@@ -31,13 +31,13 @@ public class UserDAO {
     }
 
     // ================= LOGIN USER =================
-    public User login(String username, String password, String role) {
+    public User login(String username, String password) {
 
         String sql = """
             SELECT * FROM users
             WHERE LOWER(username) = LOWER(?)
               AND password = ?
-              AND LOWER(role) = LOWER(?)
+              
         """;
 
         try (Connection con = DBConnection.getConnection();
@@ -45,7 +45,7 @@ public class UserDAO {
 
             ps.setString(1, username);
             ps.setString(2, password);
-            ps.setString(3, role);
+            //ps.setString(3, role);
 
             ResultSet rs = ps.executeQuery();
 
