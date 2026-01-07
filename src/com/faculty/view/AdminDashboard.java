@@ -1,6 +1,7 @@
 package com.faculty.view;
 
 import com.faculty.controller.AdminController;
+import com.faculty.controller.StudentBasicController;  // ADD THIS IMPORT
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -15,7 +16,6 @@ public class AdminDashboard extends JFrame {
     private JButton btnCourses = new JButton("Courses");
     private JButton btnDepartments = new JButton("Departments");
     private JButton btnDegrees = new JButton("Degrees");
-    private JButton btnTimeTable = new JButton("Time Table");
     private JButton btnLogout = new JButton("Logout");
 
     private JPanel contentPanel;
@@ -28,7 +28,11 @@ public class AdminDashboard extends JFrame {
     private final Color TEXT_COLOR = Color.WHITE;
     private final Color TEXT_ACTIVE = new Color(99, 102, 241);       // Purple text for active
 
+    private Map<JButton, JPanel> buttonPanelMap = new HashMap<>();
     private Map<JButton, String> menuMap = new HashMap<>();
+
+    // ADD THIS: Controller for Students panel
+    private StudentBasicController studentController;
 
     public AdminDashboard(String username) {
         setTitle("Faculty Management System");
@@ -37,23 +41,26 @@ public class AdminDashboard extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        btnStudents.setText("👤  Students");
-        btnLecturers.setText("👨‍🏫  Lecturers");
-        btnCourses.setText("📘  Courses");
-        btnDepartments.setText("🏛️  Departments");
-        btnDegrees.setText("🎓  Degrees");
-        btnLogout.setText("🚪  Logout");
-
         add(createSidebar(username), BorderLayout.WEST);
         add(createContentPanel(), BorderLayout.CENTER);
 
-        // Initialize controller
+        // Initialize controllers
         initController();
     }
 
     private void initController() {
         // Create and initialize the AdminController
         AdminController controller = new AdminController(this);
+
+        // ADD THIS: Initialize StudentBasicController
+        studentController = new StudentBasicController(this);
+
+        // ADD THIS: Load students when Students button is clicked
+        btnStudents.addActionListener(e -> {
+            showPanel("STUDENTS");
+            setActiveButton(btnStudents);
+            studentController.refreshStudentPanel();  // This loads and sets up buttons
+        });
     }
 
     private JPanel createSidebar(String username) {
@@ -63,7 +70,6 @@ public class AdminDashboard extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
                 int w = getWidth();
                 int h = getHeight();
                 GradientPaint gp = new GradientPaint(0, 0, SIDEBAR_BG_START, 0, h, SIDEBAR_BG_END);
@@ -85,83 +91,92 @@ public class AdminDashboard extends JFrame {
         sidebar.add(lblWelcome);
         sidebar.add(Box.createVerticalStrut(30));
 
-        // Menu buttons
-        addMenuButton(btnStudents, "STUDENTS", sidebar);
-        addMenuButton(btnLecturers, "LECTURERS", sidebar);
-        addMenuButton(btnCourses, "COURSES", sidebar);
-        addMenuButton(btnDepartments, "DEPARTMENTS", sidebar);
-        addMenuButton(btnDegrees, "DEGREES", sidebar);
+        // Menu buttons with icons
+        addMenuButtonWithIcon(btnStudents, "STUDENTS", sidebar, "\uD83D\uDC64");
+        addMenuButtonWithIcon(btnLecturers, "LECTURERS", sidebar, "\uD83D\uDC68\u200D\uD83C\uDF93");
+        addMenuButtonWithIcon(btnCourses, "COURSES", sidebar, "\uD83D\uDCD6");
+        addMenuButtonWithIcon(btnDepartments, "DEPARTMENTS", sidebar, "\uD83C\uDFDB");
+        addMenuButtonWithIcon(btnDegrees, "DEGREES", sidebar, "\uD83C\uDF93");
 
         sidebar.add(Box.createVerticalGlue());
 
-        // Logout button
-        styleLogoutButton();
-        sidebar.add(btnLogout);
+        // Logout button with icon
+        addMenuButtonWithIcon(btnLogout, "LOGOUT", sidebar, "\uD83D\uDEAA");
 
         return sidebar;
     }
 
-    private void addMenuButton(JButton btn, String panelName, JPanel sidebar) {
-        styleSidebarButton(btn);
-        menuMap.put(btn, panelName);
-        sidebar.add(btn);
-        sidebar.add(Box.createVerticalStrut(8));
-    }
+    private void addMenuButtonWithIcon(JButton btn, String panelName, JPanel sidebar, String icon) {
+        // Create ONE WHITE PANEL to hold both icon + text
+        JPanel buttonPanel = new JPanel(new BorderLayout(10, 0));
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.setOpaque(true);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 15));
+        buttonPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        buttonPanel.setMaximumSize(new Dimension(250, 50));
 
-    private void styleSidebarButton(JButton btn) {
+        // Create icon label
+        JLabel iconLabel = new JLabel(icon);
+        iconLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 18));
+        iconLabel.setForeground(new Color(200, 200, 200));
+
+        // Style the button
         btn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        btn.setForeground(new Color(200, 200, 200)); // Gray text by default
+        btn.setForeground(new Color(200, 200, 200));
         btn.setOpaque(false);
-        btn.setBorder(new EmptyBorder(12, 15, 12, 15));
+        btn.setBackground(null);
+        btn.setBorder(new EmptyBorder(12, 0, 12, 0));
         btn.setHorizontalAlignment(SwingConstants.LEFT);
         btn.setFocusPainted(false);
-        btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btn.setAlignmentX(Component.LEFT_ALIGNMENT);
-        btn.setMaximumSize(new Dimension(250, 50));
-
-        // Remove default button styling
         btn.setContentAreaFilled(false);
         btn.setBorderPainted(false);
 
+        // Add icon and button to the WHITE PANEL
+        buttonPanel.add(iconLabel, BorderLayout.WEST);
+        buttonPanel.add(btn, BorderLayout.CENTER);
 
-        // Hover effect
-        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+        // Store references
+        btn.putClientProperty("iconLabel", iconLabel);
+        btn.putClientProperty("buttonPanel", buttonPanel);
+        buttonPanelMap.put(btn, buttonPanel);
+        menuMap.put(btn, panelName);
+
+        // Add hover effect
+        buttonPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                if (!btn.isOpaque() || btn.getBackground().equals(Color.WHITE)) {
-                    btn.setForeground(TEXT_ACTIVE); // Change text to purple on hover
+                if (!isButtonActive(btn)) {
+                    btn.setForeground(TEXT_ACTIVE);
+                    iconLabel.setForeground(TEXT_ACTIVE);
+                    buttonPanel.setBackground(new Color(245, 245, 245));
                 }
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                if (!btn.isOpaque() || btn.getBackground().equals(Color.WHITE)) {
-                    btn.setForeground(new Color(200, 200, 200)); // Back to gray
+                if (!isButtonActive(btn)) {
+                    btn.setForeground(new Color(200, 200, 200));
+                    iconLabel.setForeground(new Color(200, 200, 200));
+                    buttonPanel.setBackground(Color.WHITE);
                 }
             }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn.doClick();
+            }
         });
+
+        // MODIFIED: Don't add action listener here for Students button
+        // It's added in initController() method instead
+        if (!panelName.equals("STUDENTS")) {
+            btn.addActionListener(e -> {
+                showPanel(panelName);
+                setActiveButton(btn);
+            });
+        }
+
+        sidebar.add(buttonPanel);
+        sidebar.add(Box.createVerticalStrut(8));
     }
 
-    private void styleLogoutButton() {
-        btnLogout.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        btnLogout.setForeground(Color.WHITE);
-        btnLogout.setOpaque(true);
-        btnLogout.setBackground(new Color(255, 255, 255, 0)); // Transparent background
-        btnLogout.setBorder(new EmptyBorder(12, 15, 12, 15));
-        btnLogout.setHorizontalAlignment(SwingConstants.LEFT);
-        btnLogout.setFocusPainted(false);
-        btnLogout.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btnLogout.setAlignmentX(Component.LEFT_ALIGNMENT);
-        btnLogout.setMaximumSize(new Dimension(250, 50));
-        btnLogout.setContentAreaFilled(false);
-        btnLogout.setBorderPainted(false);
-
-        // Hover effect for logout
-        btnLogout.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnLogout.setForeground(Color.WHITE); // Purple on hover
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnLogout.setForeground(Color.BLACK); // White normally
-            }
-        });
+    private boolean isButtonActive(JButton btn) {
+        return btn.getForeground().equals(TEXT_ACTIVE);
     }
 
     private JPanel createContentPanel() {
@@ -194,21 +209,41 @@ public class AdminDashboard extends JFrame {
     }
 
     public void setActiveButton(JButton active) {
-        // Reset all buttons
+        // Reset all buttons and their panels
         for (JButton btn : menuMap.keySet()) {
-            btn.setOpaque(true);
-            btn.setBackground(Color.WHITE);
-            btn.setForeground(new Color(200, 200, 200)); // Gray text
+            JLabel iconLabel = (JLabel) btn.getClientProperty("iconLabel");
+            JPanel buttonPanel = (JPanel) btn.getClientProperty("buttonPanel");
+
+            // Reset button
+            btn.setForeground(new Color(200, 200, 200));
             btn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-            btn.repaint();
+
+            // Reset icon
+            if (iconLabel != null) {
+                iconLabel.setForeground(new Color(200, 200, 200));
+            }
+
+            // Reset panel background
+            if (buttonPanel != null) {
+                buttonPanel.setBackground(Color.WHITE);
+            }
         }
 
-        // Set active button
-        active.setOpaque(true);
-        active.setBackground(BTN_ACTIVE);
-        active.setForeground(TEXT_ACTIVE); // Purple text
+        // Set active button, icon, and panel
+        active.setForeground(TEXT_ACTIVE);
         active.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        active.repaint();
+
+        // Set active icon color
+        JLabel activeIconLabel = (JLabel) active.getClientProperty("iconLabel");
+        if (activeIconLabel != null) {
+            activeIconLabel.setForeground(TEXT_ACTIVE);
+        }
+
+        // Set active panel background
+        JPanel activeButtonPanel = (JPanel) active.getClientProperty("buttonPanel");
+        if (activeButtonPanel != null) {
+            activeButtonPanel.setBackground(Color.WHITE);
+        }
     }
 
     // Getters for controller
