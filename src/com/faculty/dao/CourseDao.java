@@ -13,7 +13,7 @@ import java.sql.Statement;            // ✅ For Statement
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseDAO {
+public class CourseDao {
     public List<Course> getAllCourses() {
         List<Course> list = new ArrayList<>();
 
