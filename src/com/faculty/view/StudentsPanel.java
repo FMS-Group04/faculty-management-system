@@ -8,7 +8,7 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 
 public class StudentsPanel extends JPanel {
-    private final Color PURPLE_THEME = new Color(132, 84, 255);
+    private final Color PURPLE_THEME = new Color(99, 102, 241);
     private JTable table;
     private DefaultTableModel tableModel;
     private JButton btnAdd;
