@@ -9,6 +9,7 @@ import javax.swing.table.JTableHeader;
 import java.util.Map;
 import java.util.HashMap;
 import java.awt.geom.RoundRectangle2D;
+import com.faculty.controller.StudentController;
 
 public class StudentDashboard extends JFrame {
     // Sidebar components
@@ -30,7 +31,8 @@ public class StudentDashboard extends JFrame {
     private DefaultTableModel coursesTableModel;
 
     // Timetable panel components
-    private JTextArea timetableArea;
+    private JTable timetableTable;
+    private DefaultTableModel timetableModel;
 
     // Layout components
     private JPanel contentPanel;
@@ -40,19 +42,11 @@ public class StudentDashboard extends JFrame {
     // Colors - Keeping your color theme
     private final Color SIDEBAR_BG = new Color(58, 52, 112);
     private final Color ACTIVE_TAB = new Color(99, 102, 241);
-    private final Color HOVER_COLOR = new Color(75, 70, 160);
+
     private final Color PRIMARY_PURPLE = new Color(132, 84, 255);
     private final Color LIGHT_BG = new Color(245, 247, 250);
     private final Color CARD_BG = Color.WHITE;
     private final Color SHADOW_COLOR = new Color(0, 0, 0, 10);
-
-    // Degree options
-    private final String[] DEGREE_OPTIONS = {
-            "Bachelor of Science Honors in Computer Science",
-            "Bachelor of Engineering Technology",
-            "Bachelor of Information and Communication Technology",
-            "Bachelor of Bio System Technology"
-    };
 
     public StudentDashboard(String username) {
         setTitle("Student Dashboard - Faculty Management System");
@@ -69,8 +63,8 @@ public class StudentDashboard extends JFrame {
         }
 
         // Remove default window decorations for custom look
-        setUndecorated(true);
-        setShape(new RoundRectangle2D.Double(0, 0, 1200, 750, 20, 20));
+        //setUndecorated(true);
+        //setShape(new RoundRectangle2D.Double(0, 0, 1200, 750, 20, 20));
 
         // Main container with shadow effect
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -78,7 +72,7 @@ public class StudentDashboard extends JFrame {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         // Window controls (minimize, maximize, close)
-        addWindowControls(mainPanel);
+       // addWindowControls(mainPanel);
 
         // Create dashboard content
         JPanel dashboardContent = new JPanel(new BorderLayout());
@@ -132,7 +126,7 @@ public class StudentDashboard extends JFrame {
             setActiveTab(coursesTab);
         });
         // =======================================
-
+          new StudentController(this, username);
     }
 
     private void addWindowControls(JPanel panel) {
@@ -199,8 +193,7 @@ public class StudentDashboard extends JFrame {
                 // Gradient background
                 GradientPaint gradient = new GradientPaint(
                         0, 0, new Color(58, 52, 112),
-                        0, getHeight(), new Color(75, 70, 160)
-                );
+                        0, getHeight(), new Color(75, 70, 160));
                 g2.setPaint(gradient);
                 g2.fillRect(0, 0, getWidth(), getHeight());
 
@@ -322,14 +315,13 @@ public class StudentDashboard extends JFrame {
                     // Active state with gradient
                     GradientPaint gradient = new GradientPaint(
                             0, 0, ACTIVE_TAB,
-                            0, getHeight(), new Color(124, 58, 237)
-                    );
+                            0, getHeight(), new Color(124, 58, 237));
                     g2.setPaint(gradient);
                     g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
 
                     // Glow effect
                     g2.setColor(new Color(255, 255, 255, 30));
-                    g2.fillRoundRect(0, 0, getWidth(), getHeight()/2, 15, 15);
+                    g2.fillRoundRect(0, 0, getWidth(), getHeight() / 2, 15, 15);
                 } else if (getModel().isRollover()) {
                     // Hover state
                     g2.setColor(new Color(255, 255, 255, 20));
@@ -358,6 +350,7 @@ public class StudentDashboard extends JFrame {
                     button.setBackground(new Color(255, 255, 255, 20));
                 }
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 if (button.getBackground() != ACTIVE_TAB) {
                     button.setBackground(new Color(0, 0, 0, 0));
@@ -378,8 +371,7 @@ public class StudentDashboard extends JFrame {
                 // Gradient background
                 GradientPaint gradient = new GradientPaint(
                         0, 0, new Color(255, 87, 34),
-                        0, getHeight(), new Color(244, 67, 54)
-                );
+                        0, getHeight(), new Color(244, 67, 54));
                 g2.setPaint(gradient);
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
 
@@ -408,6 +400,7 @@ public class StudentDashboard extends JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 button.repaint();
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 button.repaint();
             }
@@ -457,7 +450,7 @@ public class StudentDashboard extends JFrame {
 
                 // Shadow effect
                 g2.setColor(SHADOW_COLOR);
-                g2.fillRoundRect(2, 2, getWidth()-4, getHeight()-4, 15, 15);
+                g2.fillRoundRect(2, 2, getWidth() - 4, getHeight() - 4, 15, 15);
 
                 g2.dispose();
             }
@@ -478,7 +471,8 @@ public class StudentDashboard extends JFrame {
         gbc.weightx = 1.0;
 
         // Full Name
-        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         gbc.gridwidth = 1;
         formPanel.add(createFormLabel("Full Name:"), gbc);
         txtFullName = createStyledTextField();
@@ -488,30 +482,53 @@ public class StudentDashboard extends JFrame {
         formPanel.add(txtFullName, gbc);
         gbc.gridwidth = 1;
 
-        // Student ID
-        gbc.gridx = 0; gbc.gridy = 1;
+        // Student ID (Registration Number)
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         gbc.gridwidth = 1;
-        formPanel.add(createFormLabel("Student ID:"), gbc);
+        formPanel.add(createFormLabel("Registration No:"), gbc);
         txtStudentId = createStyledTextField();
-        txtStudentId.setEditable(true); // Made editable
+        txtStudentId.setEditable(true); // Editable as requested
+
+        // Add placeholder logic
+        txtStudentId.setText("CS/2022/000");
+        txtStudentId.setForeground(Color.GRAY);
+        txtStudentId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (txtStudentId.getText().equals("CS/2022/000")) {
+                    txtStudentId.setText("");
+                    txtStudentId.setForeground(Color.BLACK);
+                }
+            }
+
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (txtStudentId.getText().isEmpty()) {
+                    txtStudentId.setForeground(Color.GRAY);
+                    txtStudentId.setText("CS/2022/000");
+                }
+            }
+        });
+
         gbc.gridx = 1;
         gbc.gridwidth = 2;
         formPanel.add(txtStudentId, gbc);
         gbc.gridwidth = 1;
 
         // Degree - Changed to JComboBox
-        gbc.gridx = 0; gbc.gridy = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
         gbc.gridwidth = 1;
         formPanel.add(createFormLabel("Degree:"), gbc);
         cmbDegree = createStyledComboBox();
-        cmbDegree.setEditable(false); // Dropdown selection only
+        cmbDegree.setEditable(true); // Dropdown selection only
         gbc.gridx = 1;
         gbc.gridwidth = 2;
         formPanel.add(cmbDegree, gbc);
         gbc.gridwidth = 1;
 
         // Email
-        gbc.gridx = 0; gbc.gridy = 3;
+        gbc.gridx = 0;
+        gbc.gridy = 3;
         gbc.gridwidth = 1;
         formPanel.add(createFormLabel("Email:"), gbc);
         txtEmail = createStyledTextField();
@@ -522,7 +539,8 @@ public class StudentDashboard extends JFrame {
         gbc.gridwidth = 1;
 
         // Mobile Number
-        gbc.gridx = 0; gbc.gridy = 4;
+        gbc.gridx = 0;
+        gbc.gridy = 4;
         gbc.gridwidth = 1;
         formPanel.add(createFormLabel("Mobile Number:"), gbc);
         txtMobileNumber = createStyledTextField();
@@ -533,7 +551,8 @@ public class StudentDashboard extends JFrame {
         gbc.gridwidth = 1;
 
         // Add minimal empty space
-        gbc.gridx = 0; gbc.gridy = 5;
+        gbc.gridx = 0;
+        gbc.gridy = 5;
         gbc.gridwidth = 4;
         gbc.weighty = 0.5; // Reduced from 1.0 to 0.5
         formPanel.add(Box.createVerticalGlue(), gbc);
@@ -560,8 +579,7 @@ public class StudentDashboard extends JFrame {
 
                 GradientPaint gradient = new GradientPaint(
                         0, 0, PRIMARY_PURPLE,
-                        0, getHeight(), new Color(101, 31, 255)
-                );
+                        0, getHeight(), new Color(101, 31, 255));
                 g2.setPaint(gradient);
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 8, 8); // Smaller radius
 
@@ -590,6 +608,7 @@ public class StudentDashboard extends JFrame {
                 saveButton.revalidate();
                 saveButton.repaint();
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 saveButton.setPreferredSize(new Dimension(200, 45));
                 saveButton.revalidate();
@@ -626,15 +645,14 @@ public class StudentDashboard extends JFrame {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 field.setBorder(BorderFactory.createCompoundBorder(
                         BorderFactory.createLineBorder(PRIMARY_PURPLE, 2),
-                        BorderFactory.createEmptyBorder(9, 11, 9, 11)
-                ));
+                        BorderFactory.createEmptyBorder(9, 11, 9, 11)));
                 field.setBackground(new Color(255, 255, 245));
             }
+
             public void focusLost(java.awt.event.FocusEvent evt) {
                 field.setBorder(BorderFactory.createCompoundBorder(
                         BorderFactory.createLineBorder(new Color(220, 220, 220), 1),
-                        BorderFactory.createEmptyBorder(10, 12, 10, 12)
-                ));
+                        BorderFactory.createEmptyBorder(10, 12, 10, 12)));
                 field.setBackground(Color.WHITE);
             }
         });
@@ -643,18 +661,18 @@ public class StudentDashboard extends JFrame {
     }
 
     private JComboBox<String> createStyledComboBox() {
-        JComboBox<String> comboBox = new JComboBox<>(DEGREE_OPTIONS);
+        JComboBox<String> comboBox = new JComboBox<>();
         comboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         comboBox.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(220, 220, 220), 1),
-                BorderFactory.createEmptyBorder(8, 12, 8, 12)
-        ));
+                BorderFactory.createEmptyBorder(8, 12, 8, 12)));
         comboBox.setBackground(Color.WHITE);
         comboBox.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value,
                                                           int index, boolean isSelected, boolean cellHasFocus) {
-                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,
+                        cellHasFocus);
                 label.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
                 return label;
             }
@@ -665,15 +683,14 @@ public class StudentDashboard extends JFrame {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 comboBox.setBorder(BorderFactory.createCompoundBorder(
                         BorderFactory.createLineBorder(PRIMARY_PURPLE, 2),
-                        BorderFactory.createEmptyBorder(7, 11, 7, 11)
-                ));
+                        BorderFactory.createEmptyBorder(7, 11, 7, 11)));
                 comboBox.setBackground(new Color(255, 255, 245));
             }
+
             public void focusLost(java.awt.event.FocusEvent evt) {
                 comboBox.setBorder(BorderFactory.createCompoundBorder(
                         BorderFactory.createLineBorder(new Color(220, 220, 220), 1),
-                        BorderFactory.createEmptyBorder(8, 12, 8, 12)
-                ));
+                        BorderFactory.createEmptyBorder(8, 12, 8, 12)));
                 comboBox.setBackground(Color.WHITE);
             }
         });
@@ -722,7 +739,7 @@ public class StudentDashboard extends JFrame {
 
                 // Shadow effect
                 g2.setColor(SHADOW_COLOR);
-                g2.fillRoundRect(2, 2, getWidth()-4, getHeight()-4, 15, 15);
+                g2.fillRoundRect(2, 2, getWidth() - 4, getHeight() - 4, 15, 15);
 
                 g2.dispose();
             }
@@ -731,7 +748,7 @@ public class StudentDashboard extends JFrame {
         card.setBorder(new EmptyBorder(20, 20, 20, 20)); // Reduced padding
 
         // Table
-        String[] columns = {"Course Code", "Course Name", "Credits", "Grade"};
+        String[] columns = { "Course Code", "Course Name", "Credits", "Grade" };
         coursesTableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -777,12 +794,18 @@ public class StudentDashboard extends JFrame {
                     // Color code grades
                     if (value != null) {
                         String grade = value.toString();
-                        if (grade.equals("A+")) c.setForeground(new Color(0, 150, 0));
-                        else if (grade.equals("A")) c.setForeground(new Color(0, 180, 0));
-                        else if (grade.equals("B")) c.setForeground(new Color(255, 140, 0));
-                        else if (grade.equals("C")) c.setForeground(new Color(255, 100, 0));
-                        else if (grade.equals("D")) c.setForeground(new Color(255, 0, 0));
-                        else c.setForeground(Color.BLACK);
+                        if (grade.equals("A+"))
+                            c.setForeground(new Color(0, 150, 0));
+                        else if (grade.equals("A"))
+                            c.setForeground(new Color(0, 180, 0));
+                        else if (grade.equals("B"))
+                            c.setForeground(new Color(255, 140, 0));
+                        else if (grade.equals("C"))
+                            c.setForeground(new Color(255, 100, 0));
+                        else if (grade.equals("D"))
+                            c.setForeground(new Color(255, 0, 0));
+                        else
+                            c.setForeground(Color.BLACK);
                     }
                 } else {
                     ((JLabel) c).setHorizontalAlignment(SwingConstants.LEFT);
@@ -858,7 +881,7 @@ public class StudentDashboard extends JFrame {
 
                 // Shadow effect
                 g2.setColor(SHADOW_COLOR);
-                g2.fillRoundRect(2, 2, getWidth()-4, getHeight()-4, 15, 15);
+                g2.fillRoundRect(2, 2, getWidth() - 4, getHeight() - 4, 15, 15);
 
                 g2.dispose();
             }
@@ -866,20 +889,61 @@ public class StudentDashboard extends JFrame {
         card.setLayout(new BorderLayout());
         card.setBorder(new EmptyBorder(20, 20, 20, 20)); // Reduced padding
 
-        // Timetable area
-        timetableArea = new JTextArea();
-        timetableArea.setFont(new Font("Consolas", Font.PLAIN, 12)); // Smaller font
-        timetableArea.setEditable(false);
-        timetableArea.setBackground(new Color(250, 250, 255));
-        timetableArea.setForeground(new Color(60, 60, 60));
-        timetableArea.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15)); // Reduced padding
+        // Timetable Table
+        String[] columns = { "Day", "Time", "Course Code", "Course Name", "Location" };
+        timetableModel = new DefaultTableModel(columns, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        timetableTable = new JTable(timetableModel);
+
+        // Style the table
+        timetableTable.setRowHeight(40);
+        timetableTable.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        timetableTable.setShowGrid(false);
+        timetableTable.setIntercellSpacing(new Dimension(0, 0));
+
+        // Style header
+        JTableHeader header = timetableTable.getTableHeader();
+        header.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        header.setBackground(PRIMARY_PURPLE);
+        header.setForeground(Color.WHITE);
+        header.setPreferredSize(new Dimension(header.getWidth(), 45));
+
+        // Remove header border
+        header.setBorder(BorderFactory.createEmptyBorder());
+
+        // Style rows (Alternate colors)
+        timetableTable.setDefaultRenderer(Object.class, new javax.swing.table.DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                                                           boolean isSelected, boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                // Alternate row colors
+                if (row % 2 == 0) {
+                    c.setBackground(new Color(250, 250, 255));
+                } else {
+                    c.setBackground(Color.WHITE);
+                }
+
+                c.setForeground(new Color(60, 60, 60));
+
+                // Add padding
+                ((JLabel) c).setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+
+                return c;
+            }
+        });
 
         // Add scroll
-        JScrollPane scrollPane = new JScrollPane(timetableArea);
+        JScrollPane scrollPane = new JScrollPane(timetableTable);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        scrollPane.getViewport().setBackground(new Color(250, 250, 255));
+        scrollPane.getViewport().setBackground(Color.WHITE);
 
-        // Add header
+        // Add header panel
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setOpaque(false);
         headerPanel.setBorder(new EmptyBorder(0, 0, 10, 0)); // Reduced spacing
@@ -917,10 +981,7 @@ public class StudentDashboard extends JFrame {
             activeTab.repaint();
         }
 
-
     }
-
-
 
     public void populateCoursesTable(List<String[]> courses) {
         coursesTableModel.setRowCount(0); // Clear existing data
@@ -943,37 +1004,67 @@ public class StudentDashboard extends JFrame {
                 }
             }
         }
+
+        coursesTable.revalidate();
+        coursesTable.repaint();
+    }
+
+    public void setDegreeOptions(List<String> degrees) {
+        cmbDegree.removeAllItems();
+        for (String degree : degrees) {
+            cmbDegree.addItem(degree);
+        }
     }
 
     public void populateTimeTable(List<String[]> timetable) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("┌───────────────┬───────────────┬───────────────┬────────────────────────────────┬───────────────┐\n");
-        sb.append(String.format("│ %-13s │ %-13s │ %-13s │ %-30s │ %-13s │\n",
-                "Day", "Time", "Course Code", "Course Name", "Location"));
-        sb.append("├───────────────┼───────────────┼───────────────┼────────────────────────────────┼───────────────┤\n");
+        timetableModel.setRowCount(0); // Clear existing data
 
         for (String[] entry : timetable) {
-            sb.append(String.format("│ %-13s │ %-13s │ %-13s │ %-30s │ %-13s │\n",
-                    entry[0], entry[1], entry[2], entry[3], entry[4]));
+            timetableModel.addRow(entry);
         }
 
-        sb.append("└───────────────┴───────────────┴───────────────┴────────────────────────────────┴───────────────┘\n");
-
-        timetableArea.setText(sb.toString());
+        timetableTable.revalidate();
+        timetableTable.repaint();
     }
 
     // Getters for profile data
-    public String getStudentId() { return txtStudentId.getText(); }
-    public String getFullName() { return txtFullName.getText(); }
-    public String getEmail() { return txtEmail.getText(); }
-    public String getMobileNumber() { return txtMobileNumber.getText(); }
-    public String getDegree() { return (String) cmbDegree.getSelectedItem(); } // Updated for ComboBox
+    public String getStudentId() {
+        return txtStudentId.getText();
+    }
+
+    public String getFullName() {
+        return txtFullName.getText();
+    }
+
+    public String getEmail() {
+        return txtEmail.getText();
+    }
+
+    public String getMobileNumber() {
+        return txtMobileNumber.getText();
+    }
+
+    public String getDegree() {
+        return (String) cmbDegree.getSelectedItem();
+    } // Updated for ComboBox
 
     // Setters for profile data
-    public void setStudentId(String id) { txtStudentId.setText(id); }
-    public void setFullName(String name) { txtFullName.setText(name); }
-    public void setEmail(String email) { txtEmail.setText(email); }
-    public void setMobileNumber(String mobile) { txtMobileNumber.setText(mobile); }
+    public void setStudentId(String id) {
+        txtStudentId.setText(id);
+    }
+
+    public void setFullName(String name) {
+        txtFullName.setText(name);
+    }
+
+    public void setEmail(String email) {
+        txtEmail.setText(email);
+    }
+
+    public void setMobileNumber(String mobile) {
+        txtMobileNumber.setText(mobile);
+    }
+
     public void setDegree(String degree) {
         cmbDegree.setSelectedItem(degree);
         // If the degree is not in the list, add it and select it
@@ -984,9 +1075,23 @@ public class StudentDashboard extends JFrame {
     }
 
     // Getters for buttons
-    public JButton getProfileTab() { return profileTab; }
-    public JButton getTimetableTab() { return timetableTab; }
-    public JButton getCoursesTab() { return coursesTab; }
-    public JButton getLogoutButton() { return logoutButton; }
-    public JButton getSaveButton() { return saveButton; }
+    public JButton getProfileTab() {
+        return profileTab;
+    }
+
+    public JButton getTimetableTab() {
+        return timetableTab;
+    }
+
+    public JButton getCoursesTab() {
+        return coursesTab;
+    }
+
+    public JButton getLogoutButton() {
+        return logoutButton;
+    }
+
+    public JButton getSaveButton() {
+        return saveButton;
+    }
 }

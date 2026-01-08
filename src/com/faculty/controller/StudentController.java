@@ -64,6 +64,10 @@ public class StudentController {
         });
 
         System.out.println("All button actions configured");
+
+        // Load degree options
+        List<String> degrees = studentDAO.getAllDegreeNames();
+        view.setDegreeOptions(degrees);
     }
 
     private void showProfilePanel() {
@@ -115,16 +119,18 @@ public class StudentController {
 
     private void saveProfileChanges() {
         // Get values from view
+        String regNo = view.getStudentId();
+        String name = view.getFullName();
         String email = view.getEmail();
         String mobile = view.getMobileNumber();
         String degree = view.getDegree();
 
         // Validate
-        if (email.isEmpty() || mobile.isEmpty() || degree.isEmpty()) {
+        if (regNo.isEmpty() || name.isEmpty() || email.isEmpty() || mobile.isEmpty() || degree.isEmpty()) {
             JOptionPane.showMessageDialog(view,
                     "Please fill in all fields",
                     "Validation Error",
-                    JOptionPane.ERROR_MESSAGE);
+                    "CS/2022/000".equals(regNo) ? JOptionPane.ERROR_MESSAGE : JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -134,6 +140,8 @@ public class StudentController {
             student.setUsername(username);
         }
 
+        student.setStudentId(regNo);
+        student.setFullName(name);
         student.setEmail(email);
         student.setMobileNumber(mobile);
         student.setDegree(degree);
@@ -173,8 +181,12 @@ public class StudentController {
                     JOptionPane.INFORMATION_MESSAGE);
             System.out.println("User logged out: " + username);
 
-            // Here you can return to login screen
-            // SwingUtilities.invokeLater(() -> new LoginView().setVisible(true));
+            // Return to login screen
+            SwingUtilities.invokeLater(() -> {
+                com.faculty.view.LoginView loginView = new com.faculty.view.LoginView();
+                new com.faculty.controller.LoginController(loginView);
+                loginView.setVisible(true);
+            });
         }
     }
 }
