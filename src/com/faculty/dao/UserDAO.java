@@ -15,7 +15,7 @@ public class UserDAO {
     public boolean registerUser(User user) {
         String insertUserSql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
         String insertStudentSql = "INSERT INTO students (user_id, registration_number, name) VALUES (?, ?, ?)";
-        String insertLecturerSql = "INSERT INTO lecturers (user_id, employee_id, name) VALUES (?, ?, ?)";
+        String insertLecturerSql = "INSERT INTO lecturers (user_id, name) VALUES (?, ?)";
 
         Connection con = null;
         try {
@@ -54,8 +54,8 @@ public class UserDAO {
             } else if ("lecturer".equalsIgnoreCase(user.getRole())) {
                 try (PreparedStatement ps = con.prepareStatement(insertLecturerSql)) {
                     ps.setInt(1, userId);
-                    ps.setString(2, "EMP" + userId); // Temporary employee ID
-                    ps.setString(3, user.getUsername()); // Default name
+
+                    ps.setString(2, user.getUsername()); // Default name
                     ps.executeUpdate();
                 }
             }
