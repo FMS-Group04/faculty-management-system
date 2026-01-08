@@ -4,11 +4,11 @@ public class Lecturer {
     private int id;
     private String name;
     private String email;
-    private int departmentId; // ✅ Changed from String to int (matches DB)
-    private int userId;       // ✅ New field to link to users table
+    private int departmentId;
+    private int userId;
 
-    // ✅ CONSTRUCTORS
-    public Lecturer() {} // No-arg constructor
+
+    public Lecturer() {}
 
     public Lecturer(int id, String name, String email, int departmentId) {
         this.id = id;
@@ -17,7 +17,7 @@ public class Lecturer {
         this.departmentId = departmentId;
     }
 
-    // ✅ GETTERS & SETTERS
+
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -27,8 +27,8 @@ public class Lecturer {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public int getDepartmentId() { return departmentId; } // ✅ This fixes error
-    public void setDepartmentId(int departmentId) { this.departmentId = departmentId; } // ✅
+    public int getDepartmentId() { return departmentId; }
+    public void setDepartmentId(int departmentId) { this.departmentId = departmentId; }
 
     public int getUserId() { return userId; }
     public void setUserId(int userId) { this.userId = userId; }

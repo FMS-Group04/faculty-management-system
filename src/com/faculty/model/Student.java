@@ -1,13 +1,13 @@
 package com.faculty.model;
 
 public class Student {
-    private String registrationNumber; // Maps to registration_number
+    private String registrationNumber;
     private String username;
-    private String fullName; // Maps to name
+    private String fullName;
     private String email;
-    private String mobileNumber; // Maps to mobile
-    private String degree; // Maps to degree_name (for display)
-    private int degreeId; // Maps to degree_id (foreign key)
+    private String mobileNumber;
+    private String degree;
+    private int degreeId;
 
     public Student() {
     }
@@ -23,7 +23,7 @@ public class Student {
         this.degreeId = degreeId;
     }
 
-    // Getters and Setters
+
     public String getStudentId() {
         return registrationNumber;
     }

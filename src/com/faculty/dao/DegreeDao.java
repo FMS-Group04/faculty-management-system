@@ -7,7 +7,7 @@ import java.util.List;
 
 public class DegreeDao {
 
-    // ==================== READ OPERATIONS ====================
+
 
     /**
      * Load all degrees with their department and student count
@@ -49,7 +49,7 @@ public class DegreeDao {
         }
     }
 
-    // ==================== CREATE OPERATIONS ====================
+
 
     /**
      * Add a new degree to the database
@@ -59,7 +59,7 @@ public class DegreeDao {
      * @throws SQLException if database error occurs
      */
     public void addDegree(String degreeName, String departmentName, int noOfStudents) throws SQLException {
-        // First get department_id from department name
+
         int departmentId = getDepartmentId(departmentName);
 
         String sql = "INSERT INTO degrees (degree_name, department_id) VALUES (?, ?)";
@@ -73,7 +73,7 @@ public class DegreeDao {
         }
     }
 
-    // ==================== UPDATE OPERATIONS ====================
+
 
     /**
      * Update an existing degree in the database
@@ -98,7 +98,7 @@ public class DegreeDao {
         }
     }
 
-    // ==================== DELETE OPERATIONS ====================
+
 
     /**
      * Delete a degree from the database
@@ -116,7 +116,7 @@ public class DegreeDao {
         }
     }
 
-    // ==================== HELPER METHODS ====================
+
 
     /**
      * Get department ID from department name

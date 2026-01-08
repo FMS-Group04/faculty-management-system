@@ -7,17 +7,17 @@ import java.awt.event.*;
 
 public class LoginView extends JFrame {
 
-    // 🎨 Modern Color Palette
-    private final Color PRIMARY = new Color(79, 70, 229);      // Indigo
+
+    private final Color PRIMARY = new Color(79, 70, 229);
     private final Color PRIMARY_HOVER = new Color(67, 56, 202);
-    private final Color BACKGROUND = new Color(249, 250, 251); // Off-white
+    private final Color BACKGROUND = new Color(249, 250, 251);
     private final Color CARD_BG = Color.WHITE;
     private final Color TEXT_DARK = new Color(17, 24, 39);
     private final Color TEXT_GRAY = new Color(107, 114, 128);
     private final Color BORDER_COLOR = new Color(229, 231, 235);
     private final Color FOCUS_COLOR = new Color(165, 180, 252);
 
-    // 🧩 Components
+
     public JTextField txtSignInUsername, txtSignUpUsername;
     public JPasswordField txtSignInPassword, txtSignUpPassword, txtSignUpConfirm;
     public JButton btnSignIn, btnSignUp;
@@ -42,7 +42,7 @@ public class LoginView extends JFrame {
         mainContainer.add(createRightPanel(), BorderLayout.CENTER);
     }
 
-    // ================= LEFT PANEL =================
+
     private JPanel createLeftPanel() {
         JPanel panel = new JPanel() {
             @Override
@@ -89,7 +89,7 @@ public class LoginView extends JFrame {
         return panel;
     }
 
-    // ================= RIGHT PANEL =================
+
     private JPanel createRightPanel() {
         JPanel container = new JPanel(new GridBagLayout());
         container.setBackground(BACKGROUND);
@@ -151,7 +151,7 @@ public class LoginView extends JFrame {
         }
     }
 
-    // ================= FORMS =================
+
     private JPanel createSignInForm() {
         JPanel card = createCard();
         card.add(createInput("Username", txtSignInUsername = new JTextField()));

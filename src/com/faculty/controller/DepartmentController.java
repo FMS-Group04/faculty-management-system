@@ -14,7 +14,7 @@ public class DepartmentController {
     private DepartmentsPanel departmentsPanel;
     private DepartmentDao departmentDao;
 
-    // Track changes for batch processing
+
     private List<DepartmentChange> pendingChanges = new ArrayList<>();
 
     public DepartmentController(AdminDashboard view) {
@@ -24,7 +24,7 @@ public class DepartmentController {
     }
 
     private void initPanel() {
-        // Get the DepartmentsPanel from AdminDashboard
+
         Component[] components = view.getContentPane().getComponents();
         for (Component comp : components) {
             if (comp instanceof JPanel) {
@@ -70,7 +70,7 @@ public class DepartmentController {
     }
 
     private void handleAdd() {
-        // Create dialog using View component
+
         JDialog dialog = departmentsPanel.createDepartmentDialog(view, "Add New Department");
 
         dialog.setVisible(true);
@@ -81,10 +81,10 @@ public class DepartmentController {
             String hod = departmentsPanel.getDialogHOD(dialog);
             String staff = departmentsPanel.getDialogNoOfStaff(dialog);
 
-            // Track change for batch processing
+
             pendingChanges.add(new DepartmentChange("ADD", deptCode, deptName, hod, staff));
 
-            // Update table view immediately
+
             departmentsPanel.getTableModel().addRow(new Object[]{deptName, hod, "N/A", staff});
 
             showSuccessMessage("Department added. Click 'Save changes' to commit.", "Success");
@@ -103,10 +103,10 @@ public class DepartmentController {
         String currentHOD = (String) departmentsPanel.getTableModel().getValueAt(selectedRow, 1);
         String currentStaff = String.valueOf(departmentsPanel.getTableModel().getValueAt(selectedRow, 3));
 
-        // Create dialog using View component
+
         JDialog dialog = departmentsPanel.createDepartmentDialog(view, "Edit Department");
 
-        // Get department code from database
+
         String deptCode = "";
         try {
             deptCode = departmentDao.getDepartmentCode(currentDeptName);
@@ -115,7 +115,7 @@ public class DepartmentController {
             return;
         }
 
-        // Pre-fill dialog with current data
+
         departmentsPanel.setDialogDepartmentCode(dialog, deptCode);
         departmentsPanel.setDialogDepartmentName(dialog, currentDeptName);
         departmentsPanel.setDialogHOD(dialog, currentHOD);
@@ -129,10 +129,10 @@ public class DepartmentController {
             String newHOD = departmentsPanel.getDialogHOD(dialog);
             String newStaff = departmentsPanel.getDialogNoOfStaff(dialog);
 
-            // Track change for batch processing
+
             pendingChanges.add(new DepartmentChange("EDIT", deptCode, newDeptCode, newDeptName, newHOD, newStaff));
 
-            // Update table view immediately
+
             departmentsPanel.getTableModel().setValueAt(newDeptName, selectedRow, 0);
             departmentsPanel.getTableModel().setValueAt(newHOD, selectedRow, 1);
             departmentsPanel.getTableModel().setValueAt(newStaff, selectedRow, 3);
@@ -158,10 +158,10 @@ public class DepartmentController {
                 JOptionPane.WARNING_MESSAGE);
 
         if (confirm == JOptionPane.YES_OPTION) {
-            // Track change for batch processing
+
             pendingChanges.add(new DepartmentChange("DELETE", deptName));
 
-            // Remove from table view immediately
+
             departmentsPanel.getTableModel().removeRow(selectedRow);
 
             showSuccessMessage("Department marked for deletion. Click 'Save changes' to commit.", "Success");
@@ -175,7 +175,7 @@ public class DepartmentController {
         }
 
         try {
-            // Process all pending changes in batch
+
             for (DepartmentChange change : pendingChanges) {
                 switch (change.action) {
                     case "ADD":
@@ -193,7 +193,7 @@ public class DepartmentController {
             }
 
             pendingChanges.clear();
-            loadDepartments(); // Reload from database to ensure consistency
+            loadDepartments();
 
             showSuccessMessage("All changes saved successfully!", "Success");
 
@@ -202,7 +202,7 @@ public class DepartmentController {
         }
     }
 
-    // ==================== UTILITY METHODS ====================
+
 
     private void showErrorMessage(String message, String title) {
         JOptionPane.showMessageDialog(view, message, title, JOptionPane.ERROR_MESSAGE);
@@ -220,7 +220,7 @@ public class DepartmentController {
         JOptionPane.showMessageDialog(view, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
-    // ==================== INNER CLASS FOR CHANGE TRACKING ====================
+
 
     private static class DepartmentChange {
         String action;
@@ -230,7 +230,7 @@ public class DepartmentController {
         String hod;
         String staffCount;
 
-        // Constructor for ADD operation
+
         DepartmentChange(String action, String deptCode, String deptName, String hod, String staffCount) {
             this.action = action;
             this.deptCode = deptCode;
@@ -239,7 +239,7 @@ public class DepartmentController {
             this.staffCount = staffCount;
         }
 
-        // Constructor for EDIT operation
+
         DepartmentChange(String action, String oldDeptName, String deptCode, String deptName, String hod, String staffCount) {
             this.action = action;
             this.oldDeptName = oldDeptName;
@@ -249,7 +249,7 @@ public class DepartmentController {
             this.staffCount = staffCount;
         }
 
-        // Constructor for DELETE operation
+
         DepartmentChange(String action, String deptName) {
             this.action = action;
             this.deptName = deptName;

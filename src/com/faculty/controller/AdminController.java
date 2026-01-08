@@ -12,20 +12,15 @@ public class AdminController {
     private CourseController courseController;
     private DepartmentController departmentController;
     private DegreeController degreeController;
-    // Removed TimeTableController
+
 
     public AdminController(AdminDashboard view) {
         this.view = view;
 
-        // Initialize controllers (No TimeTable)
-        // Note: StudentController constructor expects 2 parameters, but we only have 1
-        // Since this is AdminController, we should NOT create StudentController here
-        // Instead, we'll handle student operations directly or remove this controller
 
-        // Removing StudentController initialization since it doesn't fit admin context
-        studentBasicController = null; // Cannot create StudentController without proper parameters
+        studentBasicController = null;
 
-        // Initialize other controllers
+
         lecturerController = new LecturerController(view);
         courseController = new CourseController(view);
         departmentController = new DepartmentController(view);
@@ -35,7 +30,7 @@ public class AdminController {
     }
 
     private void initActions() {
-        // Set up action listeners (No TimeTable)
+
         view.getStudentsBtn().addActionListener(e -> handleStudentsButton());
         view.getLecturersBtn().addActionListener(e -> lecturerController.refreshPanel());
         view.getCoursesBtn().addActionListener(e -> courseController.refreshPanel());
@@ -46,12 +41,10 @@ public class AdminController {
     }
 
     private void handleStudentsButton() {
-        // Handle student panel refresh in admin context
-        // You need to implement this method based on what should happen
-        // when admin clicks the Students button
+
         System.out.println("Admin: Students button clicked");
 
-        // Example: Show a message or implement admin-specific student management
+
         JOptionPane.showMessageDialog(view,
                 "Student management functionality for admin",
                 "Admin Students",
@@ -70,7 +63,7 @@ public class AdminController {
         if (response == JOptionPane.YES_OPTION) {
             view.dispose();
 
-            // Return to login screen
+
             SwingUtilities.invokeLater(() -> {
                 com.faculty.view.LoginView loginView = new com.faculty.view.LoginView();
                 new LoginController(loginView);

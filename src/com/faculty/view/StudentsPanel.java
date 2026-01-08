@@ -29,7 +29,7 @@ public class StudentsPanel extends JPanel {
         JPanel centerContent = new JPanel(new BorderLayout(0, 20));
         centerContent.setOpaque(false);
 
-        // Action Buttons
+
         JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 0));
         actionPanel.setOpaque(false);
 
@@ -42,7 +42,7 @@ public class StudentsPanel extends JPanel {
         actionPanel.add(btnDelete);
         centerContent.add(actionPanel, BorderLayout.NORTH);
 
-        // Table Data
+
         String[] columns = {"Full Name", "Student ID", "Degree", "Email", "Mobile Number"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
@@ -60,7 +60,7 @@ public class StudentsPanel extends JPanel {
 
         add(centerContent, BorderLayout.CENTER);
 
-        // Save button at bottom
+
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         bottomPanel.setOpaque(false);
         btnSave = createBtn("Save changes", PURPLE_THEME);
@@ -116,7 +116,7 @@ public class StudentsPanel extends JPanel {
         return b;
     }
 
-    // Getters for controller
+
     public JButton getAddButton() { return btnAdd; }
     public JButton getEditButton() { return btnEdit; }
     public JButton getDeleteButton() { return btnDelete; }
@@ -131,7 +131,7 @@ public class StudentsPanel extends JPanel {
         }
     }
 
-    // Inner class for Student Dialog
+
     public static class StudentDialog extends JDialog {
         private JTextField txtFullName;
         private JTextField txtStudentID;
@@ -150,13 +150,13 @@ public class StudentsPanel extends JPanel {
             setLayout(new BorderLayout(10, 10));
             getContentPane().setBackground(new Color(245, 245, 250));
 
-            // Main panel
+
             JPanel mainPanel = new JPanel();
             mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
             mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
             mainPanel.setBackground(new Color(245, 245, 250));
 
-            // Full Name
+
             JPanel namePanel = createFieldPanel("Full Name:");
             txtFullName = new JTextField(fullName);
             styleTextField(txtFullName);
@@ -164,7 +164,7 @@ public class StudentsPanel extends JPanel {
             mainPanel.add(namePanel);
             mainPanel.add(Box.createVerticalStrut(10));
 
-            // Student ID
+
             JPanel idPanel = createFieldPanel("Student ID:");
             txtStudentID = new JTextField(studentID);
             styleTextField(txtStudentID);
@@ -172,7 +172,7 @@ public class StudentsPanel extends JPanel {
             mainPanel.add(idPanel);
             mainPanel.add(Box.createVerticalStrut(10));
 
-            // Degree
+
             JPanel degreePanel = createFieldPanel("Degree:");
             cbDegree = new JComboBox<>(degrees);
             if (degree != null && !degree.isEmpty()) {
@@ -183,7 +183,7 @@ public class StudentsPanel extends JPanel {
             mainPanel.add(degreePanel);
             mainPanel.add(Box.createVerticalStrut(10));
 
-            // Email
+
             JPanel emailPanel = createFieldPanel("Email:");
             txtEmail = new JTextField(email);
             styleTextField(txtEmail);
@@ -191,7 +191,7 @@ public class StudentsPanel extends JPanel {
             mainPanel.add(emailPanel);
             mainPanel.add(Box.createVerticalStrut(10));
 
-            // Mobile Number
+
             JPanel mobilePanel = createFieldPanel("Mobile Number:");
             txtMobile = new JTextField(mobile);
             styleTextField(txtMobile);
@@ -202,7 +202,7 @@ public class StudentsPanel extends JPanel {
 
             add(mainPanel, BorderLayout.CENTER);
 
-            // Button panel
+
             JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 15));
             buttonPanel.setBackground(new Color(245, 245, 250));
 
@@ -303,7 +303,7 @@ public class StudentsPanel extends JPanel {
             return true;
         }
 
-        // Getters
+
         public boolean isConfirmed() { return confirmed; }
         public String getFullName() { return txtFullName.getText().trim(); }
         public String getStudentID() { return txtStudentID.getText().trim(); }

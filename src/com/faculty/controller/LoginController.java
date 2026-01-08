@@ -23,11 +23,11 @@ public class LoginController {
         view.btnSignUp.addActionListener(e -> handleSignUp());
     }
 
-    // ================= SIGN IN =================
+
     private void handleSignIn() {
         String username = view.txtSignInUsername.getText().trim();
         String password = new String(view.txtSignInPassword.getPassword());
-        //String role = view.getSelectedRole();
+
 
         if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(view,
@@ -56,7 +56,7 @@ public class LoginController {
         }
     }
 
-    // ================= SIGN UP =================
+
     private void handleSignUp() {
         String username = view.txtSignUpUsername.getText().trim();
         String password = new String(view.txtSignUpPassword.getPassword());
@@ -89,7 +89,7 @@ public class LoginController {
 
         User user = new User();
         user.setUsername(username);
-        user.setPassword(password); // (plain for now)
+        user.setPassword(password);
         user.setRole(role);
 
         UserDAO userDAO = new UserDAO();
@@ -112,7 +112,7 @@ public class LoginController {
         }
     }
 
-    // ================= DASHBOARD =================
+
     private void openDashboard(String role, String username) {
         switch (role.toLowerCase()) {
             case "admin":
@@ -127,7 +127,7 @@ public class LoginController {
         }
     }
 
-    // ================= MAIN =================
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             LoginView view = new LoginView();

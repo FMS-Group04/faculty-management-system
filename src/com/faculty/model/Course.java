@@ -5,10 +5,10 @@ public class Course {
     private String courseCode;
     private String courseName;
     private int credit;
-    private int lecturerId; // ✅ Add this field
+    private int lecturerId;
 
-    // ✅ CONSTRUCTORS
-    public Course() {} // No-arg constructor
+
+    public Course() {}
 
     public Course(String courseCode, String courseName, int credit, int lecturerId) {
         this.courseCode = courseCode;
@@ -17,7 +17,7 @@ public class Course {
         this.lecturerId = lecturerId;
     }
 
-    // ✅ GETTERS & SETTERS
+
     public int getCourseId() { return courseId; }
     public void setCourseId(int courseId) { this.courseId = courseId; }
 
@@ -27,10 +27,10 @@ public class Course {
     public String getCourseName() { return courseName; }
     public void setCourseName(String courseName) { this.courseName = courseName; }
 
-    public int getCredit() { return credit; } // ✅ Add this
+    public int getCredit() { return credit; }
     public void setCredit(int credit) { this.credit = credit; }
 
-    public int getLecturerId() { return lecturerId; } // ✅ Add this
+    public int getLecturerId() { return lecturerId; }
     public void setLecturerId(int lecturerId) { this.lecturerId = lecturerId; }
 }
 

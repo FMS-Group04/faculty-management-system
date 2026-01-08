@@ -14,7 +14,7 @@ public class StudentBasicController {
     private StudentBasicDao studentDao;
     private StudentsPanel studentsPanel;
 
-    // Store listeners to prevent stacking
+
     private ActionListener addListener;
     private ActionListener editListener;
     private ActionListener deleteListener;
@@ -68,7 +68,7 @@ public class StudentBasicController {
     private void setupButtonListeners() {
         if (studentsPanel == null) return;
 
-        // Remove old listeners first if already attached
+
         if (listenersAttached) {
             studentsPanel.getAddButton().removeActionListener(addListener);
             studentsPanel.getEditButton().removeActionListener(editListener);
@@ -76,7 +76,7 @@ public class StudentBasicController {
             studentsPanel.getSaveButton().removeActionListener(saveListener);
         }
 
-        // Add new listeners
+
         studentsPanel.getAddButton().addActionListener(addListener);
         studentsPanel.getEditButton().addActionListener(editListener);
         studentsPanel.getDeleteButton().addActionListener(deleteListener);
@@ -84,18 +84,18 @@ public class StudentBasicController {
 
         listenersAttached = true;
 
-        System.out.println("Button listeners attached successfully!"); // Debug
+        System.out.println("Button listeners attached successfully!");
     }
 
     private StudentsPanel findStudentsPanel() {
-        // Search through all components to find StudentsPanel
+
         return findStudentsPanelRecursive(view.getContentPane());
     }
 
     private StudentsPanel findStudentsPanelRecursive(Container container) {
         for (Component comp : container.getComponents()) {
             if (comp instanceof StudentsPanel) {
-                System.out.println("Found StudentsPanel!"); // Debug
+                System.out.println("Found StudentsPanel!");
                 return (StudentsPanel) comp;
             }
             if (comp instanceof Container) {
@@ -109,7 +109,7 @@ public class StudentBasicController {
     }
 
     private void handleAddStudent() {
-        System.out.println("Add button clicked!"); // Debug
+        System.out.println("Add button clicked!");
 
         if (studentsPanel == null) {
             studentsPanel = findStudentsPanel();
@@ -168,7 +168,7 @@ public class StudentBasicController {
     }
 
     private void handleEditStudent() {
-        System.out.println("Edit button clicked!"); // Debug
+        System.out.println("Edit button clicked!");
 
         if (studentsPanel == null) {
             studentsPanel = findStudentsPanel();
@@ -244,7 +244,7 @@ public class StudentBasicController {
     }
 
     private void handleDeleteStudent() {
-        System.out.println("Delete button clicked!"); // Debug
+        System.out.println("Delete button clicked!");
 
         if (studentsPanel == null) {
             studentsPanel = findStudentsPanel();
@@ -299,7 +299,7 @@ public class StudentBasicController {
     }
 
     private void handleSaveChanges() {
-        System.out.println("Save button clicked!"); // Debug
+        System.out.println("Save button clicked!");
         loadStudents();
         JOptionPane.showMessageDialog(view,
                 "All changes have been saved to the database!",

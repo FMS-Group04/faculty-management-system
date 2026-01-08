@@ -24,7 +24,7 @@ public class LecturerDashboard extends JFrame {
         setTitle("Faculty Management System - Lecturer Dashboard");
         setSize(1100, 700);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Changed from EXIT_ON_CLOSE
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout(0, 0));
 
         cardLayout = new CardLayout();
@@ -83,13 +83,13 @@ public class LecturerDashboard extends JFrame {
                     JOptionPane.QUESTION_MESSAGE);
 
             if (confirm == JOptionPane.YES_OPTION) {
-                // Dispose this window
+
                 this.dispose();
 
-                // Clean up any other windows
+
                 cleanUpWindows();
 
-                // Create a new login window properly on the EDT
+
                 SwingUtilities.invokeLater(() -> {
                     try {
                         LoginView loginView = new LoginView();
@@ -97,7 +97,7 @@ public class LecturerDashboard extends JFrame {
                         loginView.setVisible(true);
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                        // If error, try to restart completely
+
                         restartApplication();
                     }
                 });
@@ -109,7 +109,7 @@ public class LecturerDashboard extends JFrame {
     }
 
     private void cleanUpWindows() {
-        // Dispose any other windows that might interfere
+
         Window[] windows = Window.getWindows();
         for (Window window : windows) {
             if (window != this && window.isVisible()) {
@@ -119,13 +119,13 @@ public class LecturerDashboard extends JFrame {
     }
 
     private void restartApplication() {
-        // Close all windows
+
         Window[] windows = Window.getWindows();
         for (Window window : windows) {
             window.dispose();
         }
 
-        // Start fresh
+
         SwingUtilities.invokeLater(() -> {
             LoginView loginView = new LoginView();
             new LoginController(loginView);
@@ -143,16 +143,16 @@ public class LecturerDashboard extends JFrame {
         }
 
         btn.addActionListener(e -> {
-            // Reset all buttons
+
             for (Component comp : sidebar.getComponents()) {
                 if (comp instanceof JButton && comp != btnLogout) {
                     comp.setBackground(new Color(58, 52, 112));
                 }
             }
-            // Set active button
+
             btn.setBackground(new Color(99, 102, 241));
 
-            // Switch panel
+
             switch (text) {
                 case "Profile":
                     cardLayout.show(contentPanel, "PROFILE");
@@ -239,28 +239,28 @@ public class LecturerDashboard extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        // Full Name (Text Field)
+
         JTextField txtFullName = createFormField("");
 
-        // Department (DROPDOWN - CHANGE 1)
+
         JComboBox<String> comboDepartment = new JComboBox<>(new String[]{
                 "Select Department", "SE", "CS", "ET", "IT", "DS"
         });
         comboDepartment.setSelectedItem("Select Department");
         styleComboBox(comboDepartment);
 
-        // Course Teaching (DROPDOWN - CHANGE 1)
+
         JComboBox<String> comboCourseTeaching = new JComboBox<>(new String[]{
                 "Select Course", "CSCI 21032", "CSCI 21042", "CSCI 21052", "CSCI 21062"
         });
         comboCourseTeaching.setSelectedItem("Select Course");
         styleComboBox(comboCourseTeaching);
 
-        // Email and Mobile (Text Fields)
+
         JTextField txtEmail = createFormField("");
         JTextField txtMobile = createFormField("");
 
-        // Layout
+
         gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0;
         formPanel.add(createFormLabel("Full Name"), gbc);
 
@@ -271,13 +271,13 @@ public class LecturerDashboard extends JFrame {
         formPanel.add(createFormLabel("Department"), gbc);
 
         gbc.gridx = 1; gbc.weightx = 1.0;
-        formPanel.add(comboDepartment, gbc); // DROPDOWN
+        formPanel.add(comboDepartment, gbc);
 
         gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0;
         formPanel.add(createFormLabel("Course Teaching"), gbc);
 
         gbc.gridx = 1; gbc.weightx = 1.0;
-        formPanel.add(comboCourseTeaching, gbc); // DROPDOWN
+        formPanel.add(comboCourseTeaching, gbc);
 
         gbc.gridx = 0; gbc.gridy = 3; gbc.weightx = 0;
         formPanel.add(createFormLabel("Email"), gbc);
@@ -431,9 +431,9 @@ public class LecturerDashboard extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(30, 10, 10, 10);
 
-        // CHANGE 2: Use PRIMARY color instead of SUCCESS
+
         JButton btnSend = new JButton("📧 Send Message");
-        styleActionButton(btnSend, PRIMARY); // Changed from SUCCESS to PRIMARY
+        styleActionButton(btnSend, PRIMARY);
         btnSend.addActionListener(e -> {
             if (comboBatch.getSelectedIndex() == 0) {
                 JOptionPane.showMessageDialog(this,
@@ -491,8 +491,8 @@ public class LecturerDashboard extends JFrame {
         headerLabel.setForeground(TEXT_DARK);
         coursesPanel.add(headerLabel, BorderLayout.NORTH);
 
-        // CHANGE 3: Removed "Actions" column
-        String[] columns = {"Course Code", "Course Name", "Schedule", "Students"}; // Removed "Actions"
+
+        String[] columns = {"Course Code", "Course Name", "Schedule", "Students"};
         Object[][] data = {
                 {"CSCI 21052", "Object Oriented Programming", "Tuesday 10-12", "88"},
                 {"CSCI 21042", "Software Engineering", "Tuesday 1-3", "66"},
@@ -502,7 +502,7 @@ public class LecturerDashboard extends JFrame {
         javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(data, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // All cells are read-only now
+                return false;
             }
         };
 
@@ -513,7 +513,7 @@ public class LecturerDashboard extends JFrame {
         coursesTable.getTableHeader().setBackground(PRIMARY);
         coursesTable.getTableHeader().setForeground(Color.WHITE);
 
-        // REMOVED: Action column styling since column is removed
+
 
         coursesPanel.add(new JScrollPane(coursesTable), BorderLayout.CENTER);
 

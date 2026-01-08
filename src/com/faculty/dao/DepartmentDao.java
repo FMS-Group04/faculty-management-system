@@ -7,7 +7,7 @@ import java.util.List;
 
 public class DepartmentDao {
 
-    // ==================== READ OPERATIONS ====================
+
 
     /**
      * Load all departments from database
@@ -51,7 +51,7 @@ public class DepartmentDao {
         }
     }
 
-    // ==================== CREATE OPERATIONS ====================
+
 
     /**
      * Add a new department to the database
@@ -75,7 +75,7 @@ public class DepartmentDao {
         }
     }
 
-    // ==================== UPDATE OPERATIONS ====================
+
 
     /**
      * Update an existing department in the database
@@ -99,7 +99,7 @@ public class DepartmentDao {
         }
     }
 
-    // ==================== DELETE OPERATIONS ====================
+
 
     /**
      * Delete a department from the database
@@ -117,7 +117,7 @@ public class DepartmentDao {
         }
     }
 
-    // ==================== HELPER METHODS ====================
+
 
     /**
      * Execute a SQL query and return results as 2D array
@@ -143,7 +143,7 @@ public class DepartmentDao {
         }
     }
 
-    // ==================== VALIDATION METHODS ====================
+
 
     /**
      * Check if department code already exists

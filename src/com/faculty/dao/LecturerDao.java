@@ -7,7 +7,7 @@ import java.util.List;
 
 public class LecturerDao {
 
-    // ==================== READ OPERATIONS ====================
+
 
     /**
      * Load all lecturers from database
@@ -99,7 +99,7 @@ public class LecturerDao {
      * @throws SQLException if database error occurs
      */
     private int getCourseId(String courseDisplay) throws SQLException {
-        // Extract course code from display string
+
         String courseCode = courseDisplay.split(" - ")[0];
 
         String sql = "SELECT course_id FROM courses WHERE course_code = ?";
@@ -113,7 +113,7 @@ public class LecturerDao {
             if (rs.next()) {
                 return rs.getInt("course_id");
             } else {
-                return 0; // Return 0 for no course assigned
+                return 0;
             }
         }
     }
@@ -126,9 +126,9 @@ public class LecturerDao {
      * @throws SQLException if database error occurs
      */
     private int createUserAccount(String email, String name) throws SQLException {
-        // Generate username from email (part before @)
+
         String username = email.split("@")[0];
-        // Generate default password (first 4 chars of name + 4 digits)
+
         String defaultPassword = name.substring(0, Math.min(4, name.length())) + "1234";
 
         String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, 'lecturer')";
@@ -137,7 +137,7 @@ public class LecturerDao {
              PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, username);
-            ps.setString(2, defaultPassword); // In production, hash this password
+            ps.setString(2, defaultPassword);
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
@@ -149,7 +149,7 @@ public class LecturerDao {
         }
     }
 
-    // ==================== CREATE OPERATIONS ====================
+
 
     /**
      * Add a new lecturer to the database
@@ -164,11 +164,11 @@ public class LecturerDao {
                             String email, String mobile) throws SQLException {
         int departmentId = getDepartmentId(departmentName);
 
-        // First create user account
+
         int userId = createUserAccount(email, fullName);
 
-        // Note: Your table doesn't have mobile column, so we'll store it in a different way
-        // or create a separate table. For now, I'll just insert without mobile.
+
+
         String sql = "INSERT INTO lecturers (name, email, department_id, user_id) VALUES (?, ?, ?, ?)";
 
         try (Connection con = DBConnection.getConnection();
@@ -180,12 +180,12 @@ public class LecturerDao {
             ps.setInt(4, userId);
             ps.executeUpdate();
 
-            // If you have a course_lecturer table, link courses here
-            // linkLecturerToCourses(fullName, courseDisplay);
+
+
         }
     }
 
-    // ==================== UPDATE OPERATIONS ====================
+
 
     /**
      * Update an existing lecturer in the database
@@ -212,7 +212,7 @@ public class LecturerDao {
             ps.setString(4, oldFullName);
             ps.executeUpdate();
 
-            // Update user table username if email changed
+
             updateUserEmail(oldFullName, email);
         }
     }
@@ -221,7 +221,7 @@ public class LecturerDao {
      * Update user email/username
      */
     private void updateUserEmail(String lecturerName, String newEmail) throws SQLException {
-        // Get user_id from lecturer
+
         String getUserIdSql = "SELECT user_id FROM lecturers WHERE name = ?";
         int userId = 0;
 
@@ -247,7 +247,7 @@ public class LecturerDao {
         }
     }
 
-    // ==================== DELETE OPERATIONS ====================
+
 
     /**
      * Delete a lecturer from the database
@@ -255,7 +255,7 @@ public class LecturerDao {
      * @throws SQLException if database error occurs
      */
     public void deleteLecturer(String fullName) throws SQLException {
-        // First get user_id to delete from users table
+
         String getUserIdSql = "SELECT user_id FROM lecturers WHERE name = ?";
         int userId = 0;
 
@@ -268,7 +268,7 @@ public class LecturerDao {
             }
         }
 
-        // Delete from lecturers table
+
         String deleteLecturerSql = "DELETE FROM lecturers WHERE name = ?";
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(deleteLecturerSql)) {
@@ -276,7 +276,7 @@ public class LecturerDao {
             ps.executeUpdate();
         }
 
-        // Delete from users table
+
         if (userId > 0) {
             String deleteUserSql = "DELETE FROM users WHERE user_id = ?";
             try (Connection con = DBConnection.getConnection();
@@ -287,7 +287,7 @@ public class LecturerDao {
         }
     }
 
-    // ==================== HELPER METHODS ====================
+
 
     /**
      * Execute a SQL query and return results as 2D array
@@ -313,7 +313,7 @@ public class LecturerDao {
         }
     }
 
-    // ==================== VALIDATION METHODS ====================
+
 
     /**
      * Check if lecturer email already exists

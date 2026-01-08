@@ -14,7 +14,7 @@ public class CourseController {
     private CorsesPanel coursesPanel;
     private CourseDao courseDao;
 
-    // Track changes for batch processing
+
     private List<CourseChange> pendingChanges = new ArrayList<>();
 
     public CourseController(AdminDashboard view) {
@@ -24,7 +24,7 @@ public class CourseController {
     }
 
     private void initPanel() {
-        // Get the CoursesPanel from AdminDashboard
+
         Component[] components = view.getContentPane().getComponents();
         for (Component comp : components) {
             if (comp instanceof JPanel) {
@@ -70,10 +70,10 @@ public class CourseController {
     }
 
     private void handleAdd() {
-        // Create dialog using View component
+
         JDialog dialog = coursesPanel.createCourseDialog(view, "Add New Course");
 
-        // Load lecturers for dropdown
+
         try {
             String[] lecturers = courseDao.getAllLecturers();
             coursesPanel.setDialogLecturers(dialog, lecturers);
@@ -90,10 +90,10 @@ public class CourseController {
             String credits = coursesPanel.getDialogCredits(dialog);
             String lecturer = coursesPanel.getDialogLecturer(dialog);
 
-            // Track change for batch processing
+
             pendingChanges.add(new CourseChange("ADD", courseCode, courseName, credits, lecturer));
 
-            // Update table view immediately
+
             String lecturerDisplay = lecturer != null ? lecturer : "N/A";
             coursesPanel.getTableModel().addRow(new Object[]{courseCode, courseName, credits, lecturerDisplay});
 
@@ -114,10 +114,10 @@ public class CourseController {
         String currentCredits = String.valueOf(coursesPanel.getTableModel().getValueAt(selectedRow, 2));
         String currentLecturer = (String) coursesPanel.getTableModel().getValueAt(selectedRow, 3);
 
-        // Create dialog using View component
+
         JDialog dialog = coursesPanel.createCourseDialog(view, "Edit Course");
 
-        // Load lecturers for dropdown
+
         try {
             String[] lecturers = courseDao.getAllLecturers();
             coursesPanel.setDialogLecturers(dialog, lecturers);
@@ -126,12 +126,12 @@ public class CourseController {
             return;
         }
 
-        // Pre-fill dialog with current data
+
         coursesPanel.setDialogCourseCode(dialog, currentCourseCode);
         coursesPanel.setDialogCourseName(dialog, currentCourseName);
         coursesPanel.setDialogCredits(dialog, currentCredits);
 
-        // Handle "N/A" lecturer display
+
         String lecturerToSet = "N/A".equals(currentLecturer) ? null : currentLecturer;
         coursesPanel.setDialogLecturer(dialog, lecturerToSet);
 
@@ -143,11 +143,11 @@ public class CourseController {
             String newCredits = coursesPanel.getDialogCredits(dialog);
             String newLecturer = coursesPanel.getDialogLecturer(dialog);
 
-            // Track change for batch processing
+
             pendingChanges.add(new CourseChange("EDIT", currentCourseCode, newCourseCode,
                     newCourseName, newCredits, newLecturer));
 
-            // Update table view immediately
+
             String lecturerDisplay = newLecturer != null ? newLecturer : "N/A";
             coursesPanel.getTableModel().setValueAt(newCourseCode, selectedRow, 0);
             coursesPanel.getTableModel().setValueAt(newCourseName, selectedRow, 1);
@@ -175,10 +175,10 @@ public class CourseController {
                 JOptionPane.WARNING_MESSAGE);
 
         if (confirm == JOptionPane.YES_OPTION) {
-            // Track change for batch processing
+
             pendingChanges.add(new CourseChange("DELETE", courseCode));
 
-            // Remove from table view immediately
+
             coursesPanel.getTableModel().removeRow(selectedRow);
 
             showSuccessMessage("Course marked for deletion. Click 'Save changes' to commit.", "Success");
@@ -192,7 +192,7 @@ public class CourseController {
         }
 
         try {
-            // Process all pending changes in batch
+
             for (CourseChange change : pendingChanges) {
                 switch (change.action) {
                     case "ADD":
@@ -210,7 +210,7 @@ public class CourseController {
             }
 
             pendingChanges.clear();
-            loadCourses(); // Reload from database to ensure consistency
+            loadCourses();
 
             showSuccessMessage("All changes saved successfully!", "Success");
 
@@ -219,7 +219,7 @@ public class CourseController {
         }
     }
 
-    // ==================== UTILITY METHODS ====================
+
 
     private void showErrorMessage(String message, String title) {
         JOptionPane.showMessageDialog(view, message, title, JOptionPane.ERROR_MESSAGE);
@@ -237,7 +237,7 @@ public class CourseController {
         JOptionPane.showMessageDialog(view, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
-    // ==================== INNER CLASS FOR CHANGE TRACKING ====================
+
 
     private static class CourseChange {
         String action;
@@ -247,7 +247,7 @@ public class CourseController {
         String credits;
         String lecturer;
 
-        // Constructor for ADD operation
+
         CourseChange(String action, String courseCode, String courseName, String credits, String lecturer) {
             this.action = action;
             this.courseCode = courseCode;
@@ -256,7 +256,7 @@ public class CourseController {
             this.lecturer = lecturer;
         }
 
-        // Constructor for EDIT operation
+
         CourseChange(String action, String oldCourseCode, String courseCode,
                      String courseName, String credits, String lecturer) {
             this.action = action;
@@ -267,7 +267,7 @@ public class CourseController {
             this.lecturer = lecturer;
         }
 
-        // Constructor for DELETE operation
+
         CourseChange(String action, String courseCode) {
             this.action = action;
             this.courseCode = courseCode;

@@ -9,10 +9,10 @@ public class User {
     private String password;
     private String role;
 
-    // NO-ARG CONSTRUCTOR
+
     public User() {}
 
-    // GETTERS
+
     public int getId() {
         return id;
     }
@@ -29,7 +29,7 @@ public class User {
         return role;
     }
 
-    // SETTERS
+
     public void setId(int id) {
         this.id = id;
     }

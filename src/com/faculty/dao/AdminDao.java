@@ -7,7 +7,7 @@ import java.util.List;
 
 public class AdminDao {
 
-    /* ================= STUDENTS ================= */
+
 
     public Object[][] loadStudents() throws SQLException {
         String sql = """
@@ -22,7 +22,7 @@ public class AdminDao {
         return executeQuery(sql, 6);
     }
 
-    /* ================= LECTURERS ================= */
+
 
     public Object[][] loadLecturers() throws SQLException {
         String sql = """
@@ -36,7 +36,7 @@ public class AdminDao {
         return executeQuery(sql, 4);
     }
 
-    /* ================= COURSES ================= */
+
 
     public Object[][] loadCourses() throws SQLException {
         String sql = """
@@ -53,7 +53,7 @@ public class AdminDao {
         return executeQuery(sql, 7);
     }
 
-    /* ================= DEPARTMENTS ================= */
+
 
     public Object[][] loadDepartments() throws SQLException {
         String sql = """
@@ -67,7 +67,7 @@ public class AdminDao {
         return executeQuery(sql, 3);
     }
 
-    /* ================= DEGREES ================= */
+
 
     public Object[][] loadDegrees() throws SQLException {
         String sql = """
@@ -84,7 +84,7 @@ public class AdminDao {
         return executeQuery(sql, 3);
     }
 
-    /* ================= COMMON EXECUTOR ================= */
+
 
     private Object[][] executeQuery(String sql, int columns) throws SQLException {
         try (Connection con = DBConnection.getConnection();
@@ -103,9 +103,9 @@ public class AdminDao {
         }
     }
 
-    /* ================= UTILITY METHODS ================= */
 
-    // Get total student count
+
+
     public int getTotalStudentCount() throws SQLException {
         String sql = "SELECT COUNT(*) as count FROM students";
 
@@ -120,7 +120,7 @@ public class AdminDao {
         return 0;
     }
 
-    // Get total lecturer count
+
     public int getTotalLecturerCount() throws SQLException {
         String sql = "SELECT COUNT(*) as count FROM lecturers";
 
@@ -135,7 +135,7 @@ public class AdminDao {
         return 0;
     }
 
-    // Get total course count
+
     public int getTotalCourseCount() throws SQLException {
         String sql = "SELECT COUNT(*) as count FROM courses";
 
@@ -150,7 +150,7 @@ public class AdminDao {
         return 0;
     }
 
-    // Get total department count
+
     public int getTotalDepartmentCount() throws SQLException {
         String sql = "SELECT COUNT(*) as count FROM departments";
 
@@ -165,7 +165,7 @@ public class AdminDao {
         return 0;
     }
 
-    // Get total degree count
+
     public int getTotalDegreeCount() throws SQLException {
         String sql = "SELECT COUNT(*) as count FROM degrees";
 

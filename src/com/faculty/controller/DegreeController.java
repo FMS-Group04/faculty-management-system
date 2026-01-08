@@ -14,7 +14,7 @@ public class DegreeController {
     private DegreesPanel degreesPanel;
     private DegreeDao degreeDao;
 
-    // Track changes for batch processing
+
     private List<DegreeChange> pendingChanges = new ArrayList<>();
 
     public DegreeController(AdminDashboard view) {
@@ -23,10 +23,10 @@ public class DegreeController {
         initPanel();
     }
 
-    // ==================== INITIALIZATION METHODS ====================
+
 
     private void initPanel() {
-        // Get the DegreesPanel from AdminDashboard
+
         Component[] components = view.getContentPane().getComponents();
         for (Component comp : components) {
             if (comp instanceof JPanel) {
@@ -53,7 +53,7 @@ public class DegreeController {
         }
     }
 
-    // ==================== DATA LOADING METHODS ====================
+
 
     public void refreshPanel() {
         view.showPanel("DEGREES");
@@ -73,13 +73,13 @@ public class DegreeController {
         }
     }
 
-    // ==================== CRUD OPERATION HANDLERS ====================
+
 
     private void handleAdd() {
-        // Create dialog using View component
+
         JDialog dialog = degreesPanel.createDegreeDialog(view, "Add New Degree", true);
 
-        // Load departments for dropdown
+
         try {
             String[] departments = degreeDao.getAllDepartments();
             degreesPanel.setDialogDepartments(dialog, departments);
@@ -95,10 +95,10 @@ public class DegreeController {
             String department = degreesPanel.getDialogDepartment(dialog);
             String students = degreesPanel.getDialogNoOfStudents(dialog);
 
-            // Track change for batch processing
+
             pendingChanges.add(new DegreeChange("ADD", degreeName, department, students));
 
-            // Update table view immediately
+
             degreesPanel.getTableModel().addRow(new Object[]{degreeName, department, students});
 
             showSuccessMessage("Degree added. Click 'Save changes' to commit.", "Success");
@@ -117,10 +117,10 @@ public class DegreeController {
         String currentDept = (String) degreesPanel.getTableModel().getValueAt(selectedRow, 1);
         String currentStudents = String.valueOf(degreesPanel.getTableModel().getValueAt(selectedRow, 2));
 
-        // Create dialog using View component
+
         JDialog dialog = degreesPanel.createDegreeDialog(view, "Edit Degree", false);
 
-        // Load departments
+
         try {
             String[] departments = degreeDao.getAllDepartments();
             degreesPanel.setDialogDepartments(dialog, departments);
@@ -129,7 +129,7 @@ public class DegreeController {
             return;
         }
 
-        // Pre-fill dialog with current data
+
         degreesPanel.setDialogDegreeName(dialog, currentDegree);
         degreesPanel.setDialogDepartment(dialog, currentDept);
         degreesPanel.setDialogNoOfStudents(dialog, currentStudents);
@@ -141,10 +141,10 @@ public class DegreeController {
             String newDept = degreesPanel.getDialogDepartment(dialog);
             String newStudents = degreesPanel.getDialogNoOfStudents(dialog);
 
-            // Track change for batch processing
+
             pendingChanges.add(new DegreeChange("EDIT", currentDegree, newDegree, newDept, newStudents));
 
-            // Update table view immediately
+
             degreesPanel.getTableModel().setValueAt(newDegree, selectedRow, 0);
             degreesPanel.getTableModel().setValueAt(newDept, selectedRow, 1);
             degreesPanel.getTableModel().setValueAt(newStudents, selectedRow, 2);
@@ -170,10 +170,10 @@ public class DegreeController {
                 JOptionPane.WARNING_MESSAGE);
 
         if (confirm == JOptionPane.YES_OPTION) {
-            // Track change for batch processing
+
             pendingChanges.add(new DegreeChange("DELETE", degreeName));
 
-            // Remove from table view immediately
+
             degreesPanel.getTableModel().removeRow(selectedRow);
 
             showSuccessMessage("Degree marked for deletion. Click 'Save changes' to commit.", "Success");
@@ -187,7 +187,7 @@ public class DegreeController {
         }
 
         try {
-            // Process all pending changes in batch
+
             for (DegreeChange change : pendingChanges) {
                 switch (change.action) {
                     case "ADD":
@@ -205,7 +205,7 @@ public class DegreeController {
             }
 
             pendingChanges.clear();
-            loadDegrees(); // Reload from database to ensure consistency
+            loadDegrees();
 
             showSuccessMessage("All changes saved successfully!", "Success");
 
@@ -214,7 +214,7 @@ public class DegreeController {
         }
     }
 
-    // ==================== UTILITY METHODS ====================
+
 
     private void showErrorMessage(String message, String title) {
         JOptionPane.showMessageDialog(view, message, title, JOptionPane.ERROR_MESSAGE);
@@ -232,7 +232,7 @@ public class DegreeController {
         JOptionPane.showMessageDialog(view, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
-    // ==================== INNER CLASS FOR CHANGE TRACKING ====================
+
 
     private static class DegreeChange {
         String action;
@@ -241,7 +241,7 @@ public class DegreeController {
         String department;
         String noOfStudents;
 
-        // Constructor for ADD operation
+
         DegreeChange(String action, String degreeName, String department, String noOfStudents) {
             this.action = action;
             this.degreeName = degreeName;
@@ -249,7 +249,7 @@ public class DegreeController {
             this.noOfStudents = noOfStudents;
         }
 
-        // Constructor for EDIT operation
+
         DegreeChange(String action, String oldDegreeName, String degreeName, String department, String noOfStudents) {
             this.action = action;
             this.oldDegreeName = oldDegreeName;
@@ -258,7 +258,7 @@ public class DegreeController {
             this.noOfStudents = noOfStudents;
         }
 
-        // Constructor for DELETE operation
+
         DegreeChange(String action, String degreeName) {
             this.action = action;
             this.degreeName = degreeName;

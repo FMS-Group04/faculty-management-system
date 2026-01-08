@@ -9,7 +9,7 @@ import java.awt.*;
 public class CorsesPanel extends JPanel {
     private final Color PURPLE_THEME = new Color(99, 102, 241);
 
-    // UI Components
+
     private JTable table;
     private DefaultTableModel tableModel;
     private JButton btnAddNew;
@@ -17,7 +17,7 @@ public class CorsesPanel extends JPanel {
     private JButton btnDelete;
     private JButton btnSave;
 
-    // Dialog Components
+
     private JTextField txtCourseCode;
     private JTextField txtCourseName;
     private JTextField txtCredits;
@@ -28,12 +28,12 @@ public class CorsesPanel extends JPanel {
         setLayout(new BorderLayout(0, 0));
         setBackground(new Color(245, 245, 250));
 
-        // Main container with padding
+
         JPanel mainContainer = new JPanel(new BorderLayout());
         mainContainer.setBorder(new EmptyBorder(30, 40, 30, 40));
         mainContainer.setBackground(new Color(245, 245, 250));
 
-        // Title panel
+
         JPanel titlePanel = new JPanel(new BorderLayout());
         titlePanel.setBackground(new Color(245, 245, 250));
         titlePanel.setBorder(new EmptyBorder(0, 0, 10, 0));
@@ -43,7 +43,7 @@ public class CorsesPanel extends JPanel {
         lblTitle.setForeground(PURPLE_THEME);
         titlePanel.add(lblTitle, BorderLayout.NORTH);
 
-        // Action buttons panel
+
         JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
         actionPanel.setBackground(new Color(245, 245, 250));
 
@@ -62,14 +62,14 @@ public class CorsesPanel extends JPanel {
         titlePanel.add(actionPanel, BorderLayout.CENTER);
         mainContainer.add(titlePanel, BorderLayout.NORTH);
 
-        // Center panel for table
+
         JPanel centerPanel = new JPanel(new BorderLayout());
         centerPanel.setBackground(new Color(245, 245, 250));
         centerPanel.setBorder(new EmptyBorder(20, 0, 20, 0));
 
-        // Table for Courses - matching your screenshot columns
+
         String[] columns = {"Course code", "Course name", "Credits", "Lecturer"};
-        Object[][] data = {}; // Empty initial data
+        Object[][] data = {};
 
         tableModel = new DefaultTableModel(data, columns) {
             @Override
@@ -88,7 +88,7 @@ public class CorsesPanel extends JPanel {
 
         mainContainer.add(centerPanel, BorderLayout.CENTER);
 
-        // Save button at bottom
+
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         bottomPanel.setBackground(new Color(245, 245, 250));
         btnSave = new JButton("Save changes");
@@ -99,7 +99,7 @@ public class CorsesPanel extends JPanel {
         add(mainContainer, BorderLayout.CENTER);
     }
 
-    // ==================== UI STYLING METHODS ====================
+
 
     private void styleTable(JTable table) {
         table.setRowHeight(55);
@@ -108,21 +108,21 @@ public class CorsesPanel extends JPanel {
         table.setShowGrid(true);
         table.setIntercellSpacing(new Dimension(1, 1));
 
-        // Center align all cells
+
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-        // Header styling
+
         table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
         table.getTableHeader().setBackground(Color.WHITE);
         table.getTableHeader().setForeground(PURPLE_THEME);
         table.getTableHeader().setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, PURPLE_THEME));
         table.getTableHeader().setPreferredSize(new Dimension(table.getTableHeader().getWidth(), 50));
 
-        // Center align headers
+
         ((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
         table.setFocusable(false);
@@ -170,7 +170,7 @@ public class CorsesPanel extends JPanel {
         });
     }
 
-    // ==================== DIALOG METHODS ====================
+
 
     public JDialog createCourseDialog(Frame parent, String title) {
         dialogConfirmed = false;
@@ -188,7 +188,7 @@ public class CorsesPanel extends JPanel {
         gbc.insets = new Insets(8, 8, 8, 8);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Course Code
+
         gbc.gridx = 0; gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
         JLabel lblCourseCode = new JLabel("Course Code:");
@@ -200,7 +200,7 @@ public class CorsesPanel extends JPanel {
         txtCourseCode.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         contentPanel.add(txtCourseCode, gbc);
 
-        // Course Name
+
         gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0;
         JLabel lblCourseName = new JLabel("Course Name:");
         lblCourseName.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -211,7 +211,7 @@ public class CorsesPanel extends JPanel {
         txtCourseName.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         contentPanel.add(txtCourseName, gbc);
 
-        // Credits
+
         gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0;
         JLabel lblCredits = new JLabel("Credits (Number):");
         lblCredits.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -222,7 +222,7 @@ public class CorsesPanel extends JPanel {
         txtCredits.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         contentPanel.add(txtCredits, gbc);
 
-        // Lecturer Dropdown
+
         gbc.gridx = 0; gbc.gridy = 3; gbc.weightx = 0;
         JLabel lblLecturer = new JLabel("Lecturer:");
         lblLecturer.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -230,13 +230,13 @@ public class CorsesPanel extends JPanel {
 
         gbc.gridx = 1; gbc.weightx = 1.0;
         cmbLecturer = new JComboBox<>();
-        cmbLecturer.addItem("None"); // Default option
+        cmbLecturer.addItem("None");
         cmbLecturer.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         contentPanel.add(cmbLecturer, gbc);
 
         dialog.add(contentPanel, BorderLayout.CENTER);
 
-        // Buttons
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 15));
         buttonPanel.setBackground(Color.WHITE);
 
@@ -291,7 +291,7 @@ public class CorsesPanel extends JPanel {
             return false;
         }
 
-        // Course code format validation (e.g., ETEC 21062)
+
         if (!courseCode.matches("[A-Z]{4}\\s\\d{5}")) {
             JOptionPane.showMessageDialog(null, "Course Code must be in format: ABCD 12345 (4 letters, space, 5 digits)",
                     "Validation Error", JOptionPane.WARNING_MESSAGE);
@@ -322,7 +322,7 @@ public class CorsesPanel extends JPanel {
         return true;
     }
 
-    // ==================== DIALOG GETTER/SETTER METHODS ====================
+
 
     public boolean isDialogConfirmed(JDialog dialog) {
         return dialogConfirmed;
@@ -367,13 +367,13 @@ public class CorsesPanel extends JPanel {
 
     public void setDialogLecturers(JDialog dialog, String[] lecturers) {
         cmbLecturer.removeAllItems();
-        cmbLecturer.addItem("None"); // Default option
+        cmbLecturer.addItem("None");
         for (String lecturer : lecturers) {
             cmbLecturer.addItem(lecturer);
         }
     }
 
-    // ==================== COMPONENT GETTERS ====================
+
 
     public JButton getAddNewBtn() { return btnAddNew; }
     public JButton getEditBtn() { return btnEdit; }

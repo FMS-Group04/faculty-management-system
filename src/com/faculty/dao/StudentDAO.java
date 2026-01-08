@@ -8,7 +8,7 @@ import java.util.List;
 public class StudentDAO {
 
     public StudentDAO() {
-        // Constructor - connection is handled in each method
+
     }
 
     private Connection getConnection() {
@@ -41,14 +41,14 @@ public class StudentDAO {
 
             if (rs.next()) {
                 student = new Student();
-                student.setStudentId(rs.getString("registration_number")); // Changed from student_id to
-                // registration_number
+                student.setStudentId(rs.getString("registration_number"));
+
                 student.setUsername(username);
-                student.setFullName(rs.getString("name")); // Changed from full_name to name
+                student.setFullName(rs.getString("name"));
                 student.setEmail(rs.getString("email"));
-                student.setMobileNumber(rs.getString("mobile")); // Changed from mobile_number to mobile
-                student.setDegree(rs.getString("degree_name")); // Get degree name from degrees table
-                student.setDegreeId(rs.getInt("degree_id")); // Set degree_id
+                student.setMobileNumber(rs.getString("mobile"));
+                student.setDegree(rs.getString("degree_name"));
+                student.setDegreeId(rs.getInt("degree_id"));
             } else {
                 student = createDummyStudent(username);
             }
@@ -87,15 +87,15 @@ public class StudentDAO {
                 "WHERE s.user_id = (SELECT user_id FROM users WHERE username = ?)";
 
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            // Get degree_id based on degree name
+
             int degreeId = getDegreeIdByName(conn, student.getDegree());
 
-            stmt.setString(1, student.getStudentId()); // registration_number
-            stmt.setString(2, student.getFullName()); // name
-            stmt.setString(3, student.getEmail()); // email
-            stmt.setString(4, student.getMobileNumber()); // mobile
-            stmt.setInt(5, degreeId); // degree_id
-            stmt.setString(6, student.getUsername()); // username
+            stmt.setString(1, student.getStudentId());
+            stmt.setString(2, student.getFullName());
+            stmt.setString(3, student.getEmail());
+            stmt.setString(4, student.getMobileNumber());
+            stmt.setInt(5, degreeId);
+            stmt.setString(6, student.getUsername());
 
             int rows = stmt.executeUpdate();
             System.out.println("Updated " + rows + " row(s)");
@@ -114,7 +114,7 @@ public class StudentDAO {
 
     private int getDegreeIdByName(Connection conn, String degreeName) throws SQLException {
         if (degreeName == null || degreeName.trim().isEmpty()) {
-            return 0; // Default or unknown degree_id
+            return 0;
         }
 
         String query = "SELECT degree_id FROM degrees WHERE degree_name = ?";
@@ -125,7 +125,7 @@ public class StudentDAO {
                 return rs.getInt("degree_id");
             }
         }
-        return 0; // Return 0 if not found
+        return 0;
     }
 
     public List<String[]> getEnrolledCourses(String username) {
@@ -195,12 +195,12 @@ public class StudentDAO {
             return getSampleTimetable();
         }
 
-        // UPDATED QUERY: Joins users -> students -> enrollment -> courses
+
         String query = "SELECT c.day_of_week, " +
                 "CONCAT(TIME_FORMAT(c.start_time, '%H:%i'), ' - ', TIME_FORMAT(c.end_time, '%H:%i')) as time_slot, " +
                 "c.course_code, c.course_name " +
-                // Note: 'location' is missing from your DB, passing a default value or you need
-                // to add the column
+
+
                 "FROM courses c " +
                 "JOIN enrollment e ON c.course_id = e.course_id " +
                 "JOIN students s ON e.student_id = s.student_id " +
@@ -218,12 +218,12 @@ public class StudentDAO {
                 entry[1] = rs.getString("time_slot");
                 entry[2] = rs.getString("course_code");
                 entry[3] = rs.getString("course_name");
-                entry[4] = "AB-LCH-08-2"; // Placeholder since location column doesn't exist
+                entry[4] = "AB-LCH-08-2";
                 timetable.add(entry);
             }
 
             if (timetable.isEmpty()) {
-                timetable = getSampleTimetable(); // Fallback if no courses found
+                timetable = getSampleTimetable();
             }
         } catch (SQLException e) {
             System.out.println("Error getting timetable: " + e.getMessage());

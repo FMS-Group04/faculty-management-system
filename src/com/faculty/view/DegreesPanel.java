@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
 public class DegreesPanel extends JPanel {
     private final Color PURPLE_THEME = new Color(99, 102, 241);
 
-    // UI Components
+
     private JTable table;
     private DefaultTableModel tableModel;
     private JButton btnAddNew;
@@ -19,23 +19,23 @@ public class DegreesPanel extends JPanel {
     private JButton btnDelete;
     private JButton btnSave;
 
-    // Dialog Components
+
     private JTextField txtDegreeName;
     private JComboBox<String> cmbDepartment;
     private JTextField txtNoOfStudents;
     private boolean dialogConfirmed;
 
-    // Constructor - UI Initialization
+
     public DegreesPanel() {
         setLayout(new BorderLayout(0, 0));
         setBackground(new Color(245, 245, 250));
 
-        // Main container with padding
+
         JPanel mainContainer = new JPanel(new BorderLayout());
         mainContainer.setBorder(new EmptyBorder(30, 40, 30, 40));
         mainContainer.setBackground(new Color(245, 245, 250));
 
-        // Title panel
+
         JPanel titlePanel = new JPanel(new BorderLayout());
         titlePanel.setBackground(new Color(245, 245, 250));
         titlePanel.setBorder(new EmptyBorder(0, 0, 10, 0));
@@ -45,7 +45,7 @@ public class DegreesPanel extends JPanel {
         lblTitle.setForeground(PURPLE_THEME);
         titlePanel.add(lblTitle, BorderLayout.NORTH);
 
-        // Action buttons panel
+
         JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
         actionPanel.setBackground(new Color(245, 245, 250));
 
@@ -64,12 +64,12 @@ public class DegreesPanel extends JPanel {
         titlePanel.add(actionPanel, BorderLayout.CENTER);
         mainContainer.add(titlePanel, BorderLayout.NORTH);
 
-        // Center panel for table
+
         JPanel centerPanel = new JPanel(new BorderLayout());
         centerPanel.setBackground(new Color(245, 245, 250));
         centerPanel.setBorder(new EmptyBorder(20, 0, 20, 0));
 
-        // Table setup
+
         String[] columns = {"Degree", "Department", "No of Students"};
         Object[][] data = {};
 
@@ -90,7 +90,7 @@ public class DegreesPanel extends JPanel {
 
         mainContainer.add(centerPanel, BorderLayout.CENTER);
 
-        // Save button at bottom
+
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         bottomPanel.setBackground(new Color(245, 245, 250));
         btnSave = new JButton("Save changes");
@@ -101,7 +101,7 @@ public class DegreesPanel extends JPanel {
         add(mainContainer, BorderLayout.CENTER);
     }
 
-    // ==================== UI STYLING METHODS ====================
+
 
     private void styleTable(JTable table) {
         table.setRowHeight(55);
@@ -110,21 +110,21 @@ public class DegreesPanel extends JPanel {
         table.setShowGrid(true);
         table.setIntercellSpacing(new Dimension(1, 1));
 
-        // Center align all cells
+
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-        // Header styling
+
         table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
         table.getTableHeader().setBackground(Color.WHITE);
         table.getTableHeader().setForeground(PURPLE_THEME);
         table.getTableHeader().setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, PURPLE_THEME));
         table.getTableHeader().setPreferredSize(new Dimension(table.getTableHeader().getWidth(), 50));
 
-        // Center align headers
+
         ((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
         table.setFocusable(false);
@@ -172,7 +172,7 @@ public class DegreesPanel extends JPanel {
         });
     }
 
-    // ==================== DIALOG CREATION METHODS ====================
+
 
     public JDialog createDegreeDialog(Frame parent, String title, boolean isAdd) {
         dialogConfirmed = false;
@@ -190,7 +190,7 @@ public class DegreesPanel extends JPanel {
         gbc.insets = new Insets(8, 8, 8, 8);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Degree Name Field
+
         gbc.gridx = 0; gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
         JLabel lblDegreeName = new JLabel("Degree Name:");
@@ -202,7 +202,7 @@ public class DegreesPanel extends JPanel {
         txtDegreeName.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         contentPanel.add(txtDegreeName, gbc);
 
-        // Department Dropdown
+
         gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0;
         JLabel lblDepartment = new JLabel("Department:");
         lblDepartment.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -213,7 +213,7 @@ public class DegreesPanel extends JPanel {
         cmbDepartment.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         contentPanel.add(cmbDepartment, gbc);
 
-        // Students Count Field
+
         gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0;
         JLabel lblStudents = new JLabel("No of Students:");
         lblStudents.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -226,7 +226,7 @@ public class DegreesPanel extends JPanel {
 
         dialog.add(contentPanel, BorderLayout.CENTER);
 
-        // Dialog Buttons
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 15));
         buttonPanel.setBackground(Color.WHITE);
 
@@ -273,7 +273,7 @@ public class DegreesPanel extends JPanel {
         });
     }
 
-    // ==================== VALIDATION METHODS ====================
+
 
     private boolean validateDialogInputs() {
         if (txtDegreeName.getText().trim().isEmpty()) {
@@ -306,7 +306,7 @@ public class DegreesPanel extends JPanel {
         return true;
     }
 
-    // ==================== DIALOG DATA METHODS ====================
+
 
     public boolean isDialogConfirmed(JDialog dialog) {
         return dialogConfirmed;
@@ -343,7 +343,7 @@ public class DegreesPanel extends JPanel {
         }
     }
 
-    // ==================== COMPONENT GETTERS ====================
+
 
     public JButton getAddNewBtn() { return btnAddNew; }
     public JButton getEditBtn() { return btnEdit; }

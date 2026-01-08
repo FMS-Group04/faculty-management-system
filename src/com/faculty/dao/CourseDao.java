@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CourseDao {
 
-    // ==================== READ OPERATIONS ====================
+
 
     /**
      * Load all courses from database
@@ -56,7 +56,7 @@ public class CourseDao {
      */
     private int getLecturerId(String lecturerName) throws SQLException {
         if (lecturerName == null || lecturerName.isEmpty() || "None".equals(lecturerName)) {
-            return 0; // Return 0 for no lecturer assigned
+            return 0;
         }
 
         String sql = "SELECT lecturer_id FROM lecturers WHERE name = ?";
@@ -70,12 +70,12 @@ public class CourseDao {
             if (rs.next()) {
                 return rs.getInt("lecturer_id");
             } else {
-                return 0; // Return 0 if lecturer not found
+                return 0;
             }
         }
     }
 
-    // ==================== CREATE OPERATIONS ====================
+
 
     /**
      * Add a new course to the database
@@ -105,7 +105,7 @@ public class CourseDao {
         }
     }
 
-    // ==================== UPDATE OPERATIONS ====================
+
 
     /**
      * Update an existing course in the database
@@ -138,7 +138,7 @@ public class CourseDao {
         }
     }
 
-    // ==================== DELETE OPERATIONS ====================
+
 
     /**
      * Delete a course from the database
@@ -156,7 +156,7 @@ public class CourseDao {
         }
     }
 
-    // ==================== HELPER METHODS ====================
+
 
     /**
      * Execute a SQL query and return results as 2D array
@@ -182,7 +182,7 @@ public class CourseDao {
         }
     }
 
-    // ==================== VALIDATION METHODS ====================
+
 
     /**
      * Check if course code already exists

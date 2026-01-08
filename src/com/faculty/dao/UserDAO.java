@@ -10,8 +10,8 @@ import java.sql.SQLException;
 
 public class UserDAO {
 
-    // ================= REGISTER USER =================
-    // ================= REGISTER USER =================
+
+
     public boolean registerUser(User user) {
         String insertUserSql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
         String insertStudentSql = "INSERT INTO students (user_id, registration_number, name) VALUES (?, ?, ?)";
@@ -20,9 +20,9 @@ public class UserDAO {
         Connection con = null;
         try {
             con = DBConnection.getConnection();
-            con.setAutoCommit(false); // Start transaction
+            con.setAutoCommit(false);
 
-            // 1. Insert User
+
             int userId = -1;
             try (PreparedStatement ps = con.prepareStatement(insertUserSql, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, user.getUsername());
@@ -43,31 +43,31 @@ public class UserDAO {
                 }
             }
 
-            // 2. Insert into Role Table
+
             if ("student".equalsIgnoreCase(user.getRole())) {
                 try (PreparedStatement ps = con.prepareStatement(insertStudentSql)) {
                     ps.setInt(1, userId);
-                    ps.setString(2, "REG" + userId); // Temporary registration number
-                    ps.setString(3, user.getUsername()); // Default name is username
+                    ps.setString(2, "REG" + userId);
+                    ps.setString(3, user.getUsername());
                     ps.executeUpdate();
                 }
             } else if ("lecturer".equalsIgnoreCase(user.getRole())) {
                 try (PreparedStatement ps = con.prepareStatement(insertLecturerSql)) {
                     ps.setInt(1, userId);
 
-                    ps.setString(2, user.getUsername()); // Default name
+                    ps.setString(2, user.getUsername());
                     ps.executeUpdate();
                 }
             }
 
-            con.commit(); // Commit transaction
+            con.commit();
             return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
             if (con != null) {
                 try {
-                    con.rollback(); // Rollback on error
+                    con.rollback();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -76,7 +76,7 @@ public class UserDAO {
         } finally {
             if (con != null) {
                 try {
-                    con.setAutoCommit(true); // Reset auto-commit
+                    con.setAutoCommit(true);
                     con.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -85,7 +85,7 @@ public class UserDAO {
         }
     }
 
-    // ================= LOGIN USER =================
+
     public User login(String username, String password) {
 
         String sql = """
@@ -100,7 +100,7 @@ public class UserDAO {
 
             ps.setString(1, username);
             ps.setString(2, password);
-            // ps.setString(3, role);
+
 
             ResultSet rs = ps.executeQuery();
 

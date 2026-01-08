@@ -7,7 +7,7 @@ import java.util.List;
 
 public class StudentBasicDao {
 
-    // Load all students with their details
+
     public Object[][] loadStudents() throws SQLException {
         String sql = """
             SELECT s.name, s.registration_number, d.degree_name,
@@ -20,7 +20,7 @@ public class StudentBasicDao {
         return executeQuery(sql, 5);
     }
 
-    // Get all degree names for dropdown
+
     public String[] getAllDegrees() throws SQLException {
         String sql = "SELECT degree_name FROM degrees ORDER BY degree_name";
 
@@ -41,7 +41,7 @@ public class StudentBasicDao {
         }
     }
 
-    // Get degree_id by degree name
+
     private int getDegreeId(String degreeName) throws SQLException {
         String sql = "SELECT degree_id FROM degrees WHERE degree_name = ?";
 
@@ -58,7 +58,7 @@ public class StudentBasicDao {
         }
     }
 
-    // Check if student ID already exists
+
     private boolean studentExists(Connection con, String registrationNumber) throws SQLException {
         String sql = "SELECT COUNT(*) FROM students WHERE registration_number = ?";
 
@@ -73,11 +73,11 @@ public class StudentBasicDao {
         return false;
     }
 
-    // Add new student (with transaction support)
+
     public boolean addStudent(String name, String registrationNumber, String degreeName,
                               String email, String mobile) throws SQLException {
 
-        // Validate inputs
+
         if (name == null || name.trim().isEmpty()) {
             throw new SQLException("Student name cannot be empty");
         }
@@ -102,12 +102,12 @@ public class StudentBasicDao {
             con = DBConnection.getConnection();
             con.setAutoCommit(false);
 
-            // Check if student already exists
+
             if (studentExists(con, registrationNumber)) {
                 throw new SQLException("Student with registration number " + registrationNumber + " already exists");
             }
 
-            // Insert user account
+
             int userId;
             try (PreparedStatement psUser = con.prepareStatement(insertUserSql, Statement.RETURN_GENERATED_KEYS)) {
                 psUser.setString(1, registrationNumber);
@@ -123,7 +123,7 @@ public class StudentBasicDao {
                 }
             }
 
-            // Insert student record
+
             int degreeId = getDegreeId(degreeName);
             try (PreparedStatement psStudent = con.prepareStatement(insertStudentSql)) {
                 psStudent.setString(1, name.trim());
@@ -153,18 +153,18 @@ public class StudentBasicDao {
                     con.setAutoCommit(true);
                     con.close();
                 } catch (SQLException closeEx) {
-                    // Log but don't throw
+
                     closeEx.printStackTrace();
                 }
             }
         }
     }
 
-    // Update student information
+
     public boolean updateStudent(String oldRegistrationNumber, String name, String newRegistrationNumber,
                                  String degreeName, String email, String mobile) throws SQLException {
 
-        // Validate inputs
+
         if (name == null || name.trim().isEmpty()) {
             throw new SQLException("Student name cannot be empty");
         }
@@ -197,7 +197,7 @@ public class StudentBasicDao {
             con = DBConnection.getConnection();
             con.setAutoCommit(false);
 
-            // If registration number changed, check if new one already exists
+
             if (!oldRegistrationNumber.equals(newRegistrationNumber)) {
                 if (studentExists(con, newRegistrationNumber)) {
                     throw new SQLException("Student with registration number " + newRegistrationNumber + " already exists");
@@ -206,7 +206,7 @@ public class StudentBasicDao {
 
             int degreeId = getDegreeId(degreeName);
 
-            // Update student record
+
             try (PreparedStatement ps = con.prepareStatement(updateStudentSql)) {
                 ps.setString(1, name.trim());
                 ps.setString(2, newRegistrationNumber.trim());
@@ -222,7 +222,7 @@ public class StudentBasicDao {
                 }
             }
 
-            // Update username in users table if registration number changed
+
             if (!oldRegistrationNumber.equals(newRegistrationNumber)) {
                 try (PreparedStatement ps = con.prepareStatement(updateUsernameSql)) {
                     ps.setString(1, newRegistrationNumber.trim());
@@ -255,7 +255,7 @@ public class StudentBasicDao {
         }
     }
 
-    // Delete student and associated user account
+
     public boolean deleteStudent(String registrationNumber) throws SQLException {
         if (registrationNumber == null || registrationNumber.trim().isEmpty()) {
             throw new SQLException("Registration number cannot be empty");
@@ -270,7 +270,7 @@ public class StudentBasicDao {
             con = DBConnection.getConnection();
             con.setAutoCommit(false);
 
-            // Get user_id
+
             int userId;
             try (PreparedStatement ps = con.prepareStatement(getUserIdSql)) {
                 ps.setString(1, registrationNumber.trim());
@@ -283,13 +283,13 @@ public class StudentBasicDao {
                 }
             }
 
-            // Delete student record
+
             try (PreparedStatement ps = con.prepareStatement(deleteStudentSql)) {
                 ps.setString(1, registrationNumber.trim());
                 ps.executeUpdate();
             }
 
-            // Delete user account
+
             try (PreparedStatement ps = con.prepareStatement(deleteUserSql)) {
                 ps.setInt(1, userId);
                 int rowsAffected = ps.executeUpdate();
@@ -318,7 +318,7 @@ public class StudentBasicDao {
         }
     }
 
-    // Common query executor for SELECT operations
+
     private Object[][] executeQuery(String sql, int columns) throws SQLException {
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);

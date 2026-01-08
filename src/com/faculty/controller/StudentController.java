@@ -19,10 +19,10 @@ public class StudentController {
 
         System.out.println("StudentController created for: " + username);
 
-        // Initialize controller first
+
         initController();
 
-        // Then load data
+
         loadProfileData();
         loadCoursesData();
         loadTimeTableData();
@@ -33,31 +33,31 @@ public class StudentController {
     private void initController() {
         System.out.println("Setting up button actions...");
 
-        // Profile Tab
+
         view.getProfileTab().addActionListener(e -> {
             System.out.println("Profile tab clicked");
             showProfilePanel();
         });
 
-        // Timetable Tab
+
         view.getTimetableTab().addActionListener(e -> {
             System.out.println("Timetable tab clicked");
             showTimeTablePanel();
         });
 
-        // Courses Tab
+
         view.getCoursesTab().addActionListener(e -> {
             System.out.println("Courses tab clicked");
             showCoursesPanel();
         });
 
-        // Save Button
+
         view.getSaveButton().addActionListener(e -> {
             System.out.println("Save button clicked");
             saveProfileChanges();
         });
 
-        // Logout Button
+
         view.getLogoutButton().addActionListener(e -> {
             System.out.println("Logout button clicked");
             handleLogout();
@@ -65,7 +65,7 @@ public class StudentController {
 
         System.out.println("All button actions configured");
 
-        // Load degree options
+
         List<String> degrees = studentDAO.getAllDegreeNames();
         view.setDegreeOptions(degrees);
     }
@@ -118,14 +118,14 @@ public class StudentController {
     }
 
     private void saveProfileChanges() {
-        // Get values from view
+
         String regNo = view.getStudentId();
         String name = view.getFullName();
         String email = view.getEmail();
         String mobile = view.getMobileNumber();
         String degree = view.getDegree();
 
-        // Validate
+
         if (regNo.isEmpty() || name.isEmpty() || email.isEmpty() || mobile.isEmpty() || degree.isEmpty()) {
             JOptionPane.showMessageDialog(view,
                     "Please fill in all fields",
@@ -134,7 +134,7 @@ public class StudentController {
             return;
         }
 
-        // Update student object
+
         if (student == null) {
             student = new Student();
             student.setUsername(username);
@@ -146,7 +146,7 @@ public class StudentController {
         student.setMobileNumber(mobile);
         student.setDegree(degree);
 
-        // Save to database
+
         boolean success = studentDAO.updateStudentProfile(student);
 
         if (success) {
@@ -181,7 +181,7 @@ public class StudentController {
                     JOptionPane.INFORMATION_MESSAGE);
             System.out.println("User logged out: " + username);
 
-            // Return to login screen
+
             SwingUtilities.invokeLater(() -> {
                 com.faculty.view.LoginView loginView = new com.faculty.view.LoginView();
                 new com.faculty.controller.LoginController(loginView);
