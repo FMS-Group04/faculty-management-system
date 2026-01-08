@@ -18,7 +18,7 @@ INSERT INTO students (registration_number, name, email, mobile, degree_id, user_
 
 
 INSERT INTO lecturers (name, email, mobile, department_id, user_id) VALUES
-('Mr. Perera', 'perera@gmail.com', '0777208450' 1, 3);
+('Mr. Perera', 'perera@gmail.com', '0777208450', 1, 3);
 
 
 INSERT INTO courses (course_code, course_name, credit, lecturer_id, day_of_week, start_time, end_time) VALUES
