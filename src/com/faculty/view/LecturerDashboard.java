@@ -1,5 +1,7 @@
 package com.faculty.view;
 
+import com.faculty.controller.LoginController;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -22,7 +24,7 @@ public class LecturerDashboard extends JFrame {
         setTitle("Faculty Management System - Lecturer Dashboard");
         setSize(1100, 700);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Changed from EXIT_ON_CLOSE
         setLayout(new BorderLayout(0, 0));
 
         cardLayout = new CardLayout();
@@ -77,15 +79,58 @@ public class LecturerDashboard extends JFrame {
             int confirm = JOptionPane.showConfirmDialog(this,
                     "Are you sure you want to logout?",
                     "Confirm Logout",
-                    JOptionPane.YES_NO_OPTION);
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+
             if (confirm == JOptionPane.YES_OPTION) {
+                // Dispose this window
                 this.dispose();
-                new LoginView().setVisible(true);
+
+                // Clean up any other windows
+                cleanUpWindows();
+
+                // Create a new login window properly on the EDT
+                SwingUtilities.invokeLater(() -> {
+                    try {
+                        LoginView loginView = new LoginView();
+                        new LoginController(loginView);
+                        loginView.setVisible(true);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        // If error, try to restart completely
+                        restartApplication();
+                    }
+                });
             }
         });
         sidebar.add(btnLogout);
 
         return sidebar;
+    }
+
+    private void cleanUpWindows() {
+        // Dispose any other windows that might interfere
+        Window[] windows = Window.getWindows();
+        for (Window window : windows) {
+            if (window != this && window.isVisible()) {
+                window.dispose();
+            }
+        }
+    }
+
+    private void restartApplication() {
+        // Close all windows
+        Window[] windows = Window.getWindows();
+        for (Window window : windows) {
+            window.dispose();
+        }
+
+        // Start fresh
+        SwingUtilities.invokeLater(() -> {
+            LoginView loginView = new LoginView();
+            new LoginController(loginView);
+            loginView.setVisible(true);
+        });
     }
 
     private void addMenuButton(String text, JPanel sidebar, boolean active) {
@@ -208,7 +253,7 @@ public class LecturerDashboard extends JFrame {
         JComboBox<String> comboCourseTeaching = new JComboBox<>(new String[]{
                 "Select Course", "CSCI 21032", "CSCI 21042", "CSCI 21052", "CSCI 21062"
         });
-        comboCourseTeaching.setSelectedItem("Select Coourse");
+        comboCourseTeaching.setSelectedItem("Select Course");
         styleComboBox(comboCourseTeaching);
 
         // Email and Mobile (Text Fields)
