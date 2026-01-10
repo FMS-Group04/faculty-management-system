@@ -24,7 +24,7 @@ INSERT INTO degrees (degree_name, department_id) VALUES
 
 
 INSERT INTO students (registration_number, name, email, mobile, degree_id, user_id) VALUES
-('CS/2022/001', 'Dilsha Kalpani', 'dilsha@gmail.com', '0771234567', 1, 4),
+('CS/2022/001', 'Nehara Peris', 'dilsha@gmail.com', '0771234567', 1, 4),
 ('DS/2022/002', 'Kavindu Prabhashwara', 'kavindu@gmail.com', '0777777777', 2, 5),
 ('IT/2022/003', 'Randika Sandeepa', 'randika@gmail.com', '0778888888', 3, 6);
 
@@ -36,15 +36,15 @@ INSERT INTO lecturers (name, email, mobile, department_id, user_id) VALUES
 
 
 INSERT INTO courses (course_code, course_name, credit, lecturer_id, day_of_week, start_time, end_time) VALUES
-('CS101', 'Database', 3, 1, 'Monday', '08:00:00', '10:00:00'),
-('CS102', 'SE', 2, 1, 'Wednesday', '10:00:00', '12:00:00'),
-('CS103', 'OOP', 3, 1, 'Friday', '11:00:00', '12:00:00'),
-('DS101', 'Stat', 3, 2, 'Monday', '08:00:00', '10:00:00'),
-('DS102', 'Maths', 2, 2, 'Wednesday', '10:00:00', '12:00:00'),
-('DS103', 'Data Science', 3, 2, 'Friday', '11:00:00', '12:00:00'),
-('IT101', 'Database', 3, 3, 'Monday', '08:00:00', '10:00:00'),
-('IT102', 'Web', 2, 3, 'Wednesday', '10:00:00', '12:00:00'),
-('IT103', 'Programming', 3, 3, 'Friday', '11:00:00', '12:00:00');
+('CSCI 10111', 'Database', 3, 1, 'Monday', '08:00:00', '10:00:00'),
+('CSCI 10222', 'SE', 2, 1, 'Wednesday', '10:00:00', '12:00:00'),
+('CSCI 10333', 'OOP', 3, 1, 'Friday', '11:00:00', '12:00:00'),
+('DSCI 10111', 'Stat', 3, 2, 'Monday', '08:00:00', '10:00:00'),
+('DSCI 10222', 'Maths', 2, 2, 'Wednesday', '10:00:00', '12:00:00'),
+('DSCI 10333', 'Data Science', 3, 2, 'Friday', '11:00:00', '12:00:00'),
+('ICTA 10111', 'Database', 3, 3, 'Monday', '08:00:00', '10:00:00'),
+('ICTA 10222', 'Web', 2, 3, 'Wednesday', '10:00:00', '12:00:00'),
+('ICTA 10333', 'Programming', 3, 3, 'Friday', '11:00:00', '12:00:00');
 
 
 INSERT INTO enrollment (student_id, course_id, grade) VALUES
